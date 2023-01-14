@@ -12,7 +12,7 @@ namespace PropControl
     /// <summary>
     /// Global mod settings.
     /// </summary>
-    [XmlRoot("VehicleSelector")]
+    [XmlRoot("PropControl")]
     public class ModSettings : SettingsXMLBase
     {
         /// <summary>
