@@ -9,6 +9,7 @@ namespace PropControl
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
     using UnityEngine;
+    using static Patches.PropInfoPatches;
 
     /// <summary>
     /// The mod's settings options panel.
@@ -37,6 +38,30 @@ namespace PropControl
             };
             languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += languageDropDown.parent.height + Margin;
+
+            // Adaptive prop visibility sliders.
+            UISpacers.AddTitleSpacer(this, 0f, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth, Translations.Translate("PROP_VISIBILITY"));
+            currentY += 50f;
+
+            UISlider fallbackDistanceSlider = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("FALLBACK_DISTANCE"), MinFallbackDistance, MaxFallbackDistance, 1000f, FallbackRenderDistance);
+            fallbackDistanceSlider.eventValueChanged += (c, value) => FallbackRenderDistance = value;
+            fallbackDistanceSlider.tooltip = Translations.Translate("FALLBACK_DISTANCE_TIP");
+            currentY += fallbackDistanceSlider.parent.height + Margin;
+
+            UISlider minimumDistanceSlider = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("MIN_DISTANCE"), MinMinimumDistance, MaxMinimumDistance, 1f, MinimumDistance);
+            minimumDistanceSlider.eventValueChanged += (c, value) => MinimumDistance = value;
+            minimumDistanceSlider.tooltip = Translations.Translate("MIN_DISTANCE_TIP");
+            currentY += minimumDistanceSlider.parent.height + Margin;
+
+            UISlider distanceMultiplierSlider = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("DISTANCE_MULT"), MinDistanceMultiplier, MaxDistanceMultiplier, 1f, DistanceMultiplier);
+            distanceMultiplierSlider.eventValueChanged += (c, value) => DistanceMultiplier = value;
+            distanceMultiplierSlider.tooltip = Translations.Translate("DISTANCE_MULT_TIP");
+            currentY += distanceMultiplierSlider.parent.height + Margin;
+
+            UISlider lodTransitionSlider = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("LOD_TRANSITION"), MinLODTransitionMultiplier, MaxLODTransitionMultiplier, 0.05f, LODTransitionMultiplier);
+            lodTransitionSlider.eventValueChanged += (c, value) => LODTransitionMultiplier = value;
+            lodTransitionSlider.tooltip = Translations.Translate("LOD_TRANSITION_TIP");
+            currentY += lodTransitionSlider.parent.height + Margin;
         }
     }
 }

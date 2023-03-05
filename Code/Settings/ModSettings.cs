@@ -8,6 +8,7 @@ namespace PropControl
     using System.IO;
     using System.Xml.Serialization;
     using AlgernonCommons.XML;
+    using static Patches.PropInfoPatches;
 
     /// <summary>
     /// Global mod settings.
@@ -20,6 +21,30 @@ namespace PropControl
         /// </summary>
         [XmlIgnore]
         private static readonly string SettingsFileName = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "PropControl.xml");
+
+        /// <summary>
+        /// Gets or sets the fallback prop render distance.
+        /// </summary>
+        [XmlElement("PropFallbackRenderDistance")]
+        public float PropFallbackRenderDistance { get => FallbackRenderDistance; set => FallbackRenderDistance = value; }
+
+        /// <summary>
+        /// Gets or sets the minimum visibility distance.
+        /// </summary>
+        [XmlElement("PropMinimumDistance")]
+        public float PropMinimumDistance { get => MinimumDistance; set => MinimumDistance = value; }
+
+        /// <summary>
+        /// Gets or sets the distance multiplier.
+        /// </summary>
+        [XmlElement("PropDistanceMultiplier")]
+        public float PropDistanceMultiplier { get => DistanceMultiplier; set => DistanceMultiplier = value; }
+
+        /// <summary>
+        /// Gets or sets the LOD transition multiplier.
+        /// </summary>
+        [XmlElement("PropLODTransitionMultiplier")]
+        public float PropLODTransitionMultiplier { get => LODTransitionMultiplier; set => LODTransitionMultiplier = value; }
 
         /// <summary>
         /// Loads settings from file.
