@@ -115,7 +115,7 @@ namespace PropControl.Patches
         }
 
         /// <summary>
-        /// Harmony pre-emptive  to PropInstance.Position setter to implement prop precision.
+        /// Harmony pre-emptive Prefix to PropInstance.Position setter to implement prop precision.
         /// </summary>
         /// <param name="__instance">PropInstance instance.</param>
         /// <param name="value">Original setter argument.</param>
