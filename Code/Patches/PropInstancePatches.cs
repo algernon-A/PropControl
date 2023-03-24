@@ -52,7 +52,7 @@ namespace PropControl.Patches
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.Position), MethodType.Getter)]
         [HarmonyPrefix]
-        public static bool GetPositionPrefix(ref PropInstance __instance,  ref Vector3 __result)
+        public static bool GetPositionPrefix(ref PropInstance __instance, ref Vector3 __result)
         {
             // Unsafe, because we need to reverse-engineer the instance ID from the address offset.
             unsafe
@@ -173,6 +173,14 @@ namespace PropControl.Patches
         [HarmonyPatch(nameof(PropInstance.CalculateProp))]
         [HarmonyPrefix]
         public static bool CalculatePropPrefix() => false;
+
+        /// <summary>
+        /// Harmony pre-emptive Prefix to PropInstance.AfterTerrainUpdated to implement prop snapping.
+        /// </summary>
+        /// <returns>Always false (never execute original method).</returns>
+        [HarmonyPatch(nameof(PropInstance.AfterTerrainUpdated))]
+        [HarmonyPrefix]
+        public static bool AfterTerrainUpdatedPrefix() => false;
 
         /// <summary>
         /// Prop precision data struct.
