@@ -5,6 +5,7 @@
 
 namespace PropControl
 {
+    using AlgernonCommons;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
@@ -38,6 +39,13 @@ namespace PropControl
             };
             languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += languageDropDown.parent.height + Margin;
+
+            // Logging checkbox.
+            currentY += 20f;
+            UICheckBox loggingCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
+            loggingCheck.isChecked = Logging.DetailLogging;
+            loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
+            currentY += 25f;
 
             // Adaptive prop visibility sliders.
             UISpacers.AddTitleSpacer(this, 0f, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth, Translations.Translate("PROP_VISIBILITY"));
