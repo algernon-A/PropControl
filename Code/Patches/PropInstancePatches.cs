@@ -41,7 +41,7 @@ namespace PropControl.Patches
                 __instance.m_flags = (ushort)(__instance.m_flags & (int)~PropInstance.Flags.Blocked);
             }
 
-            return false;
+            return !PropToolPatches.AnarchyEnabled;
         }
 
         /// <summary>

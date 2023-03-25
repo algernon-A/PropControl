@@ -23,6 +23,9 @@ namespace PropControl
 
             // Apply decal prop fix.
             new DecalPropFix();
+
+            // Activate display label.
+            StatusLabel.CreateLabel();
         }
     }
 }

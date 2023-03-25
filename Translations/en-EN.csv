@@ -9,3 +9,6 @@
 "DISTANCE_MULT_TIP","Modifies the calculated visibility range - higher values mean greater visibility.","Slider tooltop in options panel."
 "LOD_TRANSITION","LOD transition distance","Slider in options panel."
 "LOD_TRANSITION_TIP","The model will transition from normal to LOD at this percentage of the maximum visibility distance.","Slider tooltop in options panel."
+"ANARCHY_STATUS","Prop anarchy:","Prop anarchy status indicator text."
+"ON","On","Prop anarchy status indicator text."
+"OFF","Off","Prop anarchy status indicator text."

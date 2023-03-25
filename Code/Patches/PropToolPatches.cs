@@ -20,6 +20,11 @@ namespace PropControl.Patches
     public static class PropToolPatches
     {
         /// <summary>
+        /// Gets or sets a value indicating whether prop anarchy is enabled.
+        /// </summary>
+        internal static bool AnarchyEnabled { get; set; } = true;
+
+        /// <summary>
         /// Harmony pre-emptive Prefix to PropTool.CheckPlacementErrors to implement prop tool anarchy.
         /// </summary>
         /// <param name="__result">Original method result.</param>
@@ -30,7 +35,7 @@ namespace PropControl.Patches
         {
             // Override original result.
             __result = ToolErrors.None;
-            return false;
+            return !AnarchyEnabled;
         }
 
         /// <summary>
