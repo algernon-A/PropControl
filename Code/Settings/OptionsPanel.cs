@@ -6,6 +6,7 @@
 namespace PropControl
 {
     using AlgernonCommons;
+    using AlgernonCommons.Keybinding;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
@@ -45,7 +46,14 @@ namespace PropControl
             UICheckBox loggingCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
             loggingCheck.isChecked = Logging.DetailLogging;
             loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
-            currentY += 25f;
+            currentY += 40f;
+
+            // Hotkey control.
+            OptionsKeymapping miKeyMapping = this.gameObject.AddComponent<OptionsKeymapping>();
+            miKeyMapping.Label = Translations.Translate("KEY_ANARCHY");
+            miKeyMapping.Binding = UIThreading.AnarchyKey;
+            miKeyMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
+            currentY += miKeyMapping.Panel.height + 40f;
 
             // Adaptive prop visibility sliders.
             UISpacers.AddTitleSpacer(this, 0f, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth, Translations.Translate("PROP_VISIBILITY"));

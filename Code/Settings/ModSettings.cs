@@ -7,6 +7,7 @@ namespace PropControl
 {
     using System.IO;
     using System.Xml.Serialization;
+    using AlgernonCommons.Keybinding;
     using AlgernonCommons.XML;
     using static Patches.PropInfoPatches;
 
@@ -21,6 +22,12 @@ namespace PropControl
         /// </summary>
         [XmlIgnore]
         private static readonly string SettingsFileName = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "PropControl.xml");
+
+        /// <summary>
+        /// Gets or sets the prop anarchy hotkey.
+        /// </summary>
+        [XmlElement("AnarchyKey")]
+        public Keybinding AnarchyKey { get => UIThreading.AnarchyKey; set => UIThreading.AnarchyKey = value; }
 
         /// <summary>
         /// Gets or sets the fallback prop render distance.

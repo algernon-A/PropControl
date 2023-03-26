@@ -3,7 +3,7 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace ACME
+namespace PropControl
 {
     using AlgernonCommons.Keybinding;
     using ICities;
@@ -15,23 +15,11 @@ namespace ACME
     /// </summary>
     public class UIThreading : ThreadingExtensionBase
     {
-        // Instance reference.
-        private static UIThreading s_instance;
-
         // Hotkey.
         private static Keybinding s_anarchyKey = new Keybinding(KeyCode.P, true, false, false);
 
         // Flags.
         private bool _anarchyKeyProcessed = false;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UIThreading"/> class.
-        /// </summary>
-        public UIThreading()
-        {
-            // Set instance reference.
-            s_instance = this;
-        }
 
         /// <summary>
         /// Gets or sets the prop anarchy hotkey.
