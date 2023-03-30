@@ -5,13 +5,15 @@
 
 namespace PropControl.Patches
 {
+    using System;
     using System.Collections.Generic;
+    using System.Reflection.Emit;
     using ColossalFramework;
     using HarmonyLib;
     using UnityEngine;
 
     /// <summary>
-    /// Harmony patches to implement prop anarchy and snapping.
+    /// Harmony patches to implement prop anarchy, snapping, and scaling.
     /// </summary>
     [HarmonyPatch(typeof(PropInstance))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
@@ -20,10 +22,31 @@ namespace PropControl.Patches
         // Prop precision data.
         private static readonly Dictionary<ushort, PrecisionCoordinates> PrecisionData = new Dictionary<ushort, PrecisionCoordinates>();
 
+        // Prop scaling data.
+        private static readonly float[] ScalingData;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="PropInstancePatches"/> class.
+        /// </summary>
+        static PropInstancePatches()
+        {
+            // Initialize scaling data array.
+            ScalingData = new float[PropManager.MAX_PROP_COUNT];
+            for (int i = 0; i < PropManager.MAX_PROP_COUNT; ++i)
+            {
+                ScalingData[i] = 1.0f;
+            }
+        }
+
         /// <summary>
         /// Gets the prop precision data dictionary.
         /// </summary>
         internal static Dictionary<ushort, PrecisionCoordinates> PrecisionDict => PrecisionData;
+
+        /// <summary>
+        /// Gets the prop scaling data dictionary.
+        /// </summary>
+        internal static float[] ScalingArray => ScalingData;
 
         /// <summary>
         /// Harmony pre-emptive Prefix to PropInstance.Blocked setter to implement prop tool anarchy.
@@ -181,6 +204,31 @@ namespace PropControl.Patches
         [HarmonyPatch(nameof(PropInstance.AfterTerrainUpdated))]
         [HarmonyPrefix]
         public static bool AfterTerrainUpdatedPrefix() => false;
+
+        /// <summary>
+        /// Harmony Transpiler for PropInstance.RenderInstance to implement prop scaling.
+        /// </summary>
+        /// <param name="instructions">Original ILCode.</param>
+        /// <returns>Modified ILCode.</returns>
+        [HarmonyPatch(nameof(PropInstance.RenderInstance), new Type[] { typeof(RenderManager.CameraInfo), typeof(ushort), typeof(int) })]
+        [HarmonyTranspiler]
+        internal static IEnumerable<CodeInstruction> RenderInstanceTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            // Looking for new RaycastInput constructor call.
+            foreach (CodeInstruction instruction in instructions)
+            {
+                if (instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder localBuilder && localBuilder.LocalIndex == 4)
+                {
+                    // Change the RaycastInput for prop snapping.dx
+                    yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(PropInstancePatches), nameof(ScalingData)));
+                    yield return new CodeInstruction(OpCodes.Ldarg_2);
+                    yield return new CodeInstruction(OpCodes.Ldelem, typeof(float));
+                    yield return new CodeInstruction(OpCodes.Mul);
+                }
+
+                yield return instruction;
+            }
+        }
 
         /// <summary>
         /// Prop precision data struct.

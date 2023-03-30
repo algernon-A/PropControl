@@ -3,7 +3,7 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace PropPrecision
+namespace PropScaling
 {
     using System;
     using System.IO;
@@ -12,17 +12,17 @@ namespace PropPrecision
     using ICities;
 
     /// <summary>
-    /// Serialization for prop snapping data.
+    /// Serialization for prop scaling data.
     /// </summary>
     public class SerializableData : SerializableDataExtensionBase
     {
         /// <summary>
         /// Legacy 81 tiles data ID.
         /// </summary>
-        internal const string DataID = "PropPrecision";
+        internal const string DataID = "PropScaling";
 
-        // Data version (last legacy prop precision version was 1).
-        private const int DataVersion = 1;
+        // Data version.
+        private const int DataVersion = 0;
 
         /// <summary>
         /// Deserializes data from a savegame.
@@ -48,7 +48,7 @@ namespace PropPrecision
             using (MemoryStream stream = new MemoryStream(data))
             {
                 // Serialise extended district data..
-                DataSerializer.Deserialize<Data>(stream, DataSerializer.Mode.Memory, LegacyTypeConverter);
+                DataSerializer.Deserialize<Data>(stream, DataSerializer.Mode.Memory);
 
                 // Write to savegame.
                 serializableDataManager.SaveData(DataID, stream.ToArray());
@@ -78,12 +78,5 @@ namespace PropPrecision
                 serializableDataManager.SaveData(DataID, stream.ToArray());
             }
         }
-
-        /// <summary>
-        /// Legacy container type converter.
-        /// </summary>
-        /// <param name="legacyTypeName">Legacy type name (ignored).</param>
-        /// <returns>ElectricityDataContainer type.</returns>
-        private static Type LegacyTypeConverter(string legacyTypeName) => typeof(Data);
     }
 }

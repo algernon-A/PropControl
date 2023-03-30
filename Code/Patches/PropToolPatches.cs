@@ -9,6 +9,7 @@ namespace PropControl.Patches
     using System.Reflection;
     using System.Reflection.Emit;
     using AlgernonCommons;
+    using ColossalFramework;
     using HarmonyLib;
     using static ToolBase;
 
@@ -19,10 +20,30 @@ namespace PropControl.Patches
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class PropToolPatches
     {
+        // Prop scaling factor.
+        private static float s_scaling = 1.0f;
+
         /// <summary>
         /// Gets or sets a value indicating whether prop anarchy is enabled.
         /// </summary>
         internal static bool AnarchyEnabled { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the current prop scaling factor.
+        /// </summary>
+        internal static float Scaling
+        {
+            get => s_scaling;
+
+            set
+            {
+                // Only change value if a prop is selected.
+                if (Singleton<ToolController>.instance.CurrentTool is PropTool propTool && propTool.m_prefab is PropInfo)
+                {
+                    s_scaling = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Harmony pre-emptive Prefix to PropTool.CheckPlacementErrors to implement prop tool anarchy.
@@ -36,6 +57,29 @@ namespace PropControl.Patches
             // Override original result.
             __result = ToolErrors.None;
             return !AnarchyEnabled;
+        }
+
+        /// <summary>
+        /// Harmony Transpiler for PropTool.RenderGeometry to implement prop scaling.
+        /// </summary>
+        /// <param name="instructions">Original ILCode.</param>
+        /// <returns>Modified ILCode.</returns>
+        [HarmonyPatch(nameof(PropTool.RenderGeometry))]
+        [HarmonyTranspiler]
+        internal static IEnumerable<CodeInstruction> RenderGeometryTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            // Looking for new RaycastInput constructor call.
+            foreach (CodeInstruction instruction in instructions)
+            {
+                if (instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder localBuilder && localBuilder.LocalIndex == 4)
+                {
+                    // Change the RaycastInput for prop snapping.
+                    yield return new CodeInstruction(OpCodes.Ldsfld, typeof(PropToolPatches).GetField(nameof(s_scaling), BindingFlags.NonPublic | BindingFlags.Static));
+                    yield return new CodeInstruction(OpCodes.Mul);
+                }
+
+                yield return instruction;
+            }
         }
 
         /// <summary>

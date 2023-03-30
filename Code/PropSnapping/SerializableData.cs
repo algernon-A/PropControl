@@ -12,7 +12,7 @@ namespace PropSnapping
     using ICities;
 
     /// <summary>
-    /// Serialization for expanded district data.
+    /// Serialization for prop snapping data.
     /// </summary>
     public class SerializableData : SerializableDataExtensionBase
     {
