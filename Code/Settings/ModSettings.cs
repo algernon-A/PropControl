@@ -42,6 +42,12 @@ namespace PropControl
         public Keybinding ScaleDownKey { get => UIThreading.ScaleDownKey; set => UIThreading.ScaleDownKey = value; }
 
         /// <summary>
+        /// Gets or sets the scaling repeat key delay.
+        /// </summary>
+        [XmlElement("ScalingDelay")]
+        public float ScalingDelay { get => UIThreading.ScalingDelay; set => UIThreading.ScalingDelay = value; }
+
+        /// <summary>
         /// Gets or sets the fallback prop render distance.
         /// </summary>
         [XmlElement("PropFallbackRenderDistance")]

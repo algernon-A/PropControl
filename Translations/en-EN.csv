@@ -15,3 +15,4 @@
 "KEY_ANARCHY","Toogle prop anarchy","Prop anarchy hotkey text."
 "KEY_SCALE_UP","Increase prop scale","Prop scaling hotkey text."
 "KEY_SCALE_DOWN","Decrease prop scale","Prop scaling hotkey text."
+"SCALING_DELAY","Scaling key repeat delay (seconds)","Prop scaling delay timing text."

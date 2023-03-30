@@ -67,7 +67,11 @@ namespace PropControl
             scaleDownMapping.Label = Translations.Translate("KEY_SCALE_DOWN");
             scaleDownMapping.Binding = UIThreading.ScaleDownKey;
             scaleDownMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += scaleDownMapping.Panel.height + 40f;
+            currentY += scaleDownMapping.Panel.height + Margin;
+
+            UISlider scaleDelaySlider = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("SCALING_DELAY"), 0.1f, 1.0f, 0.05f, UIThreading.ScalingDelay);
+            scaleDelaySlider.eventValueChanged += (c, value) => UIThreading.ScalingDelay = value;
+            currentY += scaleDelaySlider.parent.height + 40f;
 
             // Adaptive prop visibility sliders.
             UISpacers.AddTitleSpacer(this, 0f, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth, Translations.Translate("PROP_VISIBILITY"));

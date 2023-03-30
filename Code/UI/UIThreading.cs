@@ -22,7 +22,7 @@ namespace PropControl
         private const float RepeatScalingIncrement = 0.5f;
 
         // Delay before key repeating activates.
-        private const float InitialRepeatDelay = 0.5f;
+        private static float s_initialRepeatDelay = 0.35f;
 
         // Hotkeys.
         private static Keybinding s_anarchyKey = new Keybinding(KeyCode.P, true, false, false);
@@ -53,6 +53,11 @@ namespace PropControl
         /// Gets or sets the prop downscaling key.
         /// </summary>
         internal static Keybinding ScaleDownKey { get => s_scaleDownKey; set => s_scaleDownKey = value; }
+
+        /// <summary>
+        /// Gets or sets the prop scaling key delay.
+        /// </summary>
+        internal static float ScalingDelay { get => s_initialRepeatDelay; set => s_initialRepeatDelay = value; }
 
         /// <summary>
         /// Look for keypress to activate tool.
@@ -96,7 +101,7 @@ namespace PropControl
                     PropToolPatches.Scaling += InitialScalingIncrement;
 
                     // Record keypress time.
-                    _keyTimer = now + InitialRepeatDelay;
+                    _keyTimer = now + s_initialRepeatDelay;
                 }
                 else
                 {
@@ -129,7 +134,7 @@ namespace PropControl
                     PropToolPatches.Scaling -= InitialScalingIncrement;
 
                     // Record keypress time.
-                    _keyTimer = now + InitialRepeatDelay;
+                    _keyTimer = now + s_initialRepeatDelay;
                 }
                 else
                 {
