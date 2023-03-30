@@ -48,12 +48,26 @@ namespace PropControl
             loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
             currentY += 40f;
 
-            // Hotkey control.
-            OptionsKeymapping miKeyMapping = this.gameObject.AddComponent<OptionsKeymapping>();
-            miKeyMapping.Label = Translations.Translate("KEY_ANARCHY");
-            miKeyMapping.Binding = UIThreading.AnarchyKey;
-            miKeyMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += miKeyMapping.Panel.height + 40f;
+            // Anarchy hotkey control.
+            OptionsKeymapping anarchyKeyMapping = this.gameObject.AddComponent<OptionsKeymapping>();
+            anarchyKeyMapping.Label = Translations.Translate("KEY_ANARCHY");
+            anarchyKeyMapping.Binding = UIThreading.AnarchyKey;
+            anarchyKeyMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
+            currentY += anarchyKeyMapping.Panel.height + Margin;
+
+            // Upscaling key control.
+            OptionsKeymapping scaleUpMapping = this.gameObject.AddComponent<OptionsKeymapping>();
+            scaleUpMapping.Label = Translations.Translate("KEY_SCALE_UP");
+            scaleUpMapping.Binding = UIThreading.ScaleUpKey;
+            scaleUpMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
+            currentY += scaleUpMapping.Panel.height + Margin;
+
+            // Downscaling key control.
+            OptionsKeymapping scaleDownMapping = this.gameObject.AddComponent<OptionsKeymapping>();
+            scaleDownMapping.Label = Translations.Translate("KEY_SCALE_DOWN");
+            scaleDownMapping.Binding = UIThreading.ScaleDownKey;
+            scaleDownMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
+            currentY += scaleDownMapping.Panel.height + 40f;
 
             // Adaptive prop visibility sliders.
             UISpacers.AddTitleSpacer(this, 0f, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth, Translations.Translate("PROP_VISIBILITY"));

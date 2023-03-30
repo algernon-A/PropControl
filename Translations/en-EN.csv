@@ -13,3 +13,5 @@
 "ON","On","Prop anarchy status indicator text."
 "OFF","Off","Prop anarchy status indicator text."
 "KEY_ANARCHY","Toogle prop anarchy","Prop anarchy hotkey text."
+"KEY_SCALE_UP","Increase prop scale","Prop scaling hotkey text."
+"KEY_SCALE_DOWN","Decrease prop scale","Prop scaling hotkey text."

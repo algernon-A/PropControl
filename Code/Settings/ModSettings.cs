@@ -30,6 +30,18 @@ namespace PropControl
         public Keybinding AnarchyKey { get => UIThreading.AnarchyKey; set => UIThreading.AnarchyKey = value; }
 
         /// <summary>
+        /// Gets or sets the prop upscaling key.
+        /// </summary>
+        [XmlElement("ScaleUpKey")]
+        public Keybinding ScaleUpKey { get => UIThreading.ScaleUpKey; set => UIThreading.ScaleUpKey = value; }
+
+        /// <summary>
+        /// Gets or sets the prop upscaling key.
+        /// </summary>
+        [XmlElement("ScaleDownKey")]
+        public Keybinding ScaleDownKey { get => UIThreading.ScaleDownKey; set => UIThreading.ScaleDownKey = value; }
+
+        /// <summary>
         /// Gets or sets the fallback prop render distance.
         /// </summary>
         [XmlElement("PropFallbackRenderDistance")]

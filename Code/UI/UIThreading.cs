@@ -28,13 +28,13 @@ namespace PropControl
         private static Keybinding s_anarchyKey = new Keybinding(KeyCode.P, true, false, false);
 
         // Function keys.
-        private static Keybinding s_upscaleKey = new Keybinding(KeyCode.Period, false, false, false);
-        private static Keybinding s_downscaleKey = new Keybinding(KeyCode.Comma, false, false, false);
+        private static Keybinding s_scaleUpKey = new Keybinding(KeyCode.Period, false, false, false);
+        private static Keybinding s_scaleDownKey = new Keybinding(KeyCode.Comma, false, false, false);
 
         // Flags.
         private bool _anarchyKeyProcessed = false;
-        private bool _upscaleKeyProcessed = false;
-        private bool _downscaleKeyProcessed = false;
+        private bool _scaleUpKeyProcessed = false;
+        private bool _scaleDownKeyProcessed = false;
 
         // Timestamps.
         private float _keyTimer;
@@ -43,6 +43,16 @@ namespace PropControl
         /// Gets or sets the prop anarchy hotkey.
         /// </summary>
         internal static Keybinding AnarchyKey { get => s_anarchyKey; set => s_anarchyKey = value; }
+
+        /// <summary>
+        /// Gets or sets the prop upscaling key.
+        /// </summary>
+        internal static Keybinding ScaleUpKey { get => s_scaleUpKey; set => s_scaleUpKey = value; }
+
+        /// <summary>
+        /// Gets or sets the prop downscaling key.
+        /// </summary>
+        internal static Keybinding ScaleDownKey { get => s_scaleDownKey; set => s_scaleDownKey = value; }
 
         /// <summary>
         /// Look for keypress to activate tool.
@@ -71,16 +81,16 @@ namespace PropControl
             }
 
             // Check for upscaling keypress.
-            if (s_upscaleKey.IsPressed())
+            if (s_scaleUpKey.IsPressed())
             {
                 // Get time.
                 float now = Time.time;
 
                 // Only process if we're not already doing so.
-                if (!_upscaleKeyProcessed)
+                if (!_scaleUpKeyProcessed)
                 {
                     // Set processed flag.
-                    _upscaleKeyProcessed = true;
+                    _scaleUpKeyProcessed = true;
 
                     // Increment scaling.
                     PropToolPatches.Scaling += InitialScalingIncrement;
@@ -100,20 +110,20 @@ namespace PropControl
             else
             {
                 // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
-                _upscaleKeyProcessed = false;
+                _scaleUpKeyProcessed = false;
             }
 
             // Check for upscaling hotkey.
-            if (s_downscaleKey.IsPressed())
+            if (s_scaleDownKey.IsPressed())
             {
                 // Get time.
                 float now = Time.time;
 
                 // Only process if we're not already doing so.
-                if (!_downscaleKeyProcessed)
+                if (!_scaleDownKeyProcessed)
                 {
                     // Set processed flag.
-                    _downscaleKeyProcessed = true;
+                    _scaleDownKeyProcessed = true;
 
                     // Increment scaling.
                     PropToolPatches.Scaling -= InitialScalingIncrement;
@@ -133,7 +143,7 @@ namespace PropControl
             else
             {
                 // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
-                _downscaleKeyProcessed = false;
+                _scaleDownKeyProcessed = false;
             }
         }
     }
