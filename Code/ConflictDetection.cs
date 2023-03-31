@@ -17,7 +17,7 @@ namespace PropControl
     /// <summary>
     /// Mod conflict detection.
     /// </summary>
-    internal class ConflictDetection
+    internal sealed class ConflictDetection
     {
         // List of conflicting mods.
         private List<string> _conflictingModNames;

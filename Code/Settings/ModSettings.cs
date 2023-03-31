@@ -42,6 +42,18 @@ namespace PropControl
         public Keybinding ScaleDownKey { get => UIThreading.ScaleDownKey; set => UIThreading.ScaleDownKey = value; }
 
         /// <summary>
+        /// Gets or sets the prop upscaling key.
+        /// </summary>
+        [XmlElement("ElevationUpKey")]
+        public Keybinding ElevationUpKey { get => UIThreading.ElevationUpKey; set => UIThreading.ElevationUpKey = value; }
+
+        /// <summary>
+        /// Gets or sets the prop upscaling key.
+        /// </summary>
+        [XmlElement("ElevationDownKey")]
+        public Keybinding ElevationDownKey { get => UIThreading.ElevationDownKey; set => UIThreading.ElevationDownKey = value; }
+
+        /// <summary>
         /// Gets or sets the key repeat delay.
         /// </summary>
         [XmlElement("KeyRepeatDelay")]

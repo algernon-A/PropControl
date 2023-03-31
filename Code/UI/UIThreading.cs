@@ -14,7 +14,7 @@ namespace PropControl
     /// <summary>
     /// Threading to capture hotkeys.
     /// </summary>
-    public class UIThreading : ThreadingExtensionBase
+    public sealed class UIThreading : ThreadingExtensionBase
     {
         // Scaling step - initial (on keydown).
         private const float InitialScalingIncrement = 0.05f;
