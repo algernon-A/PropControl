@@ -54,12 +54,17 @@ namespace PropControl
             currentY += loggingCheck.height + GroupMargin;
 
             // Update on terrain change checkbox.
-            currentY += 20f;
             UICheckBox terrainUpdateCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("TERRAIN_UPDATE"));
             terrainUpdateCheck.tooltip = Translations.Translate("TERRAIN_UPDATE_TIP");
             terrainUpdateCheck.isChecked = Patches.PropInstancePatches.UpdateOnTerrain;
             terrainUpdateCheck.eventCheckChanged += (c, isChecked) => { Patches.PropInstancePatches.UpdateOnTerrain = isChecked; };
-            currentY += terrainUpdateCheck.height + GroupMargin;
+            currentY += terrainUpdateCheck.height + 20f;
+
+            UICheckBox keepAboveGroundCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("KEEP_ABOVEGROUND"));
+            keepAboveGroundCheck.tooltip = Translations.Translate("KEEP_ABOVEGROUND_TIP");
+            keepAboveGroundCheck.isChecked = Patches.PropInstancePatches.KeepAboveGround;
+            keepAboveGroundCheck.eventCheckChanged += (c, isChecked) => { Patches.PropInstancePatches.KeepAboveGround = isChecked; };
+            currentY += keepAboveGroundCheck.height + GroupMargin;
 
             // Key options.
             float headerWidth = OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f);

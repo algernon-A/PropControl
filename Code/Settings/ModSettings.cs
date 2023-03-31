@@ -31,6 +31,12 @@ namespace PropControl
         public bool UpdateOnTerrain { get => PropInstancePatches.UpdateOnTerrain; set => PropInstancePatches.UpdateOnTerrain = value; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether props should be raised to ground level if the terrain is raised above them.
+        /// </summary>
+        [XmlElement("KeepAboveGround")]
+        public bool KeepAboveGround { get => PropInstancePatches.KeepAboveGround; set => PropInstancePatches.KeepAboveGround = value; }
+
+        /// <summary>
         /// Gets or sets the prop anarchy hotkey.
         /// </summary>
         [XmlElement("AnarchyKey")]

@@ -7,6 +7,7 @@ namespace PropControl.Patches
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Reflection.Emit;
     using ColossalFramework;
     using HarmonyLib;
@@ -27,6 +28,7 @@ namespace PropControl.Patches
 
         // Update on terrain change.
         private static bool s_updateOnTerrain = false;
+        private static bool s_keepAboveGround = true;
 
         /// <summary>
         /// Initializes static members of the <see cref="PropInstancePatches"/> class.
@@ -57,6 +59,11 @@ namespace PropControl.Patches
         internal static bool UpdateOnTerrain { get => s_updateOnTerrain; set => s_updateOnTerrain = value; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether props should be raised to ground level if the terrain is raised above them.
+        /// </summary>
+        internal static bool KeepAboveGround { get => s_keepAboveGround; set => s_keepAboveGround = value; }
+
+        /// <summary>
         /// Harmony pre-emptive Prefix to PropInstance.Blocked setter to implement prop tool anarchy.
         /// </summary>
         /// <param name="__instance">PropInstance instance.</param>
@@ -64,7 +71,7 @@ namespace PropControl.Patches
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.Blocked), MethodType.Setter)]
         [HarmonyPrefix]
-        public static bool SetBlockedPrefix(ref PropInstance __instance, bool value)
+        private static bool SetBlockedPrefix(ref PropInstance __instance, bool value)
         {
             // Never apply blocked flag; only unblock.
             if (!value)
@@ -83,7 +90,7 @@ namespace PropControl.Patches
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.Position), MethodType.Getter)]
         [HarmonyPrefix]
-        public static bool GetPositionPrefix(ref PropInstance __instance, ref Vector3 __result)
+        private static bool GetPositionPrefix(ref PropInstance __instance, ref Vector3 __result)
         {
             // Unsafe, because we need to reverse-engineer the instance ID from the address offset.
             unsafe
@@ -153,7 +160,7 @@ namespace PropControl.Patches
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.Position), MethodType.Setter)]
         [HarmonyPrefix]
-        public static bool SetPositionPostfix(ref PropInstance __instance, Vector3 value)
+        private static bool SetPositionPostfix(ref PropInstance __instance, Vector3 value)
         {
             // Unsafe, because we need to reverse-engineer the instance ID from the address offset.
             unsafe
@@ -203,15 +210,34 @@ namespace PropControl.Patches
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.CalculateProp))]
         [HarmonyPrefix]
-        public static bool CalculatePropPrefix() => false;
+        private static bool CalculatePropPrefix() => false;
 
         /// <summary>
-        /// Harmony pre-emptive prefix to PropInstance.AfterTerrainUpdated to implement prop snapping.
+        /// Harmony transpiler to PropInstance.AfterTerrainUpdated to implement prop snapping.
         /// </summary>
-        /// <returns>True if updating on terrain is active and the terrain tool is in use, false otherwise.</returns>
+        /// <param name="instructions">Original ILCode.</param>
+        /// <returns>Modified ILCode.</returns>
         [HarmonyPatch(nameof(PropInstance.AfterTerrainUpdated))]
-        [HarmonyPrefix]
-        public static bool AfterTerrainUpdatedPrefix() => s_updateOnTerrain && ToolsModifierControl.GetCurrentTool<TerrainTool>() != null;
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> AfterTerrainUpdatedTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            FieldInfo m_posY = AccessTools.Field(typeof(PropInstance), nameof(PropInstance.m_posY));
+
+            // Looking for store to ushort num (local var 1).
+            foreach (CodeInstruction instruction in instructions)
+            {
+                if (instruction.StoresField(m_posY))
+                {
+                    // Insert call to our custom method.
+                    AlgernonCommons.Logging.KeyMessage("Found store m_posY");
+                    yield return new CodeInstruction(OpCodes.Ldarg_0);
+                    yield return new CodeInstruction(OpCodes.Ldfld, m_posY);
+                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PropInstancePatches), nameof(CalculateElevation)));
+                }
+
+                yield return instruction;
+            }
+        }
 
         /// <summary>
         /// Harmony transpiler for PropInstance.RenderInstance to implement prop scaling.
@@ -220,14 +246,14 @@ namespace PropControl.Patches
         /// <returns>Modified ILCode.</returns>
         [HarmonyPatch(nameof(PropInstance.RenderInstance), new Type[] { typeof(RenderManager.CameraInfo), typeof(ushort), typeof(int) })]
         [HarmonyTranspiler]
-        internal static IEnumerable<CodeInstruction> RenderInstanceTranspiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> RenderInstanceTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // Looking for new RaycastInput constructor call.
             foreach (CodeInstruction instruction in instructions)
             {
                 if (instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder localBuilder && localBuilder.LocalIndex == 4)
                 {
-                    // Change the RaycastInput for prop snapping.dx
+                    // Change the RaycastInput for prop snapping.
                     yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(PropInstancePatches), nameof(ScalingData)));
                     yield return new CodeInstruction(OpCodes.Ldarg_2);
                     yield return new CodeInstruction(OpCodes.Ldelem, typeof(float));
@@ -236,6 +262,30 @@ namespace PropControl.Patches
 
                 yield return instruction;
             }
+        }
+
+        /// <summary>
+        /// Calculates a prop's elevation given current settings.
+        /// </summary>
+        /// <param name="terrainY">Terrain elevation.</param>
+        /// <param name="propY">Prop elevation.</param>
+        /// <returns>Calculated prop Y coordinate per current settings.</returns>
+        private static ushort CalculateElevation(ushort terrainY, ushort propY)
+        {
+            if (s_updateOnTerrain)
+            {
+                // Default game behaviour - return terrain height.
+                return terrainY;
+            }
+
+            if (s_keepAboveGround)
+            {
+                // Keeping prop above ground - return higher of the two values.
+                return Math.Max(terrainY, propY);
+            }
+
+            // Not updating with terrain changes - keep original prop height.
+            return propY;
         }
 
         /// <summary>
