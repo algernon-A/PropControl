@@ -25,6 +25,9 @@ namespace PropControl.Patches
         // Prop scaling data.
         private static readonly float[] ScalingData;
 
+        // Update on terrain change.
+        private static bool s_updateOnTerrain = false;
+
         /// <summary>
         /// Initializes static members of the <see cref="PropInstancePatches"/> class.
         /// </summary>
@@ -47,6 +50,11 @@ namespace PropControl.Patches
         /// Gets the prop scaling data dictionary.
         /// </summary>
         internal static float[] ScalingArray => ScalingData;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether prop Y-positions should be updated on terrain changes.
+        /// </summary>
+        internal static bool UpdateOnTerrain { get => s_updateOnTerrain; set => s_updateOnTerrain = value; }
 
         /// <summary>
         /// Harmony pre-emptive Prefix to PropInstance.Blocked setter to implement prop tool anarchy.
@@ -200,10 +208,10 @@ namespace PropControl.Patches
         /// <summary>
         /// Harmony pre-emptive prefix to PropInstance.AfterTerrainUpdated to implement prop snapping.
         /// </summary>
-        /// <returns>Always false (never execute original method).</returns>
+        /// <returns>True if updating on terrain is active and the terrain tool is in use, false otherwise.</returns>
         [HarmonyPatch(nameof(PropInstance.AfterTerrainUpdated))]
         [HarmonyPrefix]
-        public static bool AfterTerrainUpdatedPrefix() => false;
+        public static bool AfterTerrainUpdatedPrefix() => s_updateOnTerrain && ToolsModifierControl.GetCurrentTool<TerrainTool>() != null;
 
         /// <summary>
         /// Harmony transpiler for PropInstance.RenderInstance to implement prop scaling.

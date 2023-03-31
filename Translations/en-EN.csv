@@ -1,6 +1,8 @@
 ﻿"LANGUAGE","English","Language name (in native language)."
 "MOD_DESCRIPTION","Prop anarchy and other functions","Mod description, visibile in content manager."
 "OPTIONS_GENERAL","General","Options tab title."
+"TERRAIN_UPDATE","Update prop elevation on terrain change"
+"TERRAIN_UPDATE_TIP","If this is selected, prop heights will be changed to match terrain height when and where a terrain change takes place"
 "PROP_VISIBILITY","Prop visibility","Options tab title."
 "FALLBACK_DISTANCE","Fallback maximum visibility distance","Slider in options panel."
 "FALLBACK_DISTANCE_TIP","This is the maximum visibility distance that will be used if a dynamic distance cannot be calculated.","Slider tooltop in options panel."

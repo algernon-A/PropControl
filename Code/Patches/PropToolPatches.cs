@@ -93,18 +93,6 @@ namespace PropControl.Patches
         }
 
         /// <summary>
-        /// Harmony prefix to PropTool.CreateProp to implement prop elevation adjustment.
-        /// </summary>
-        /// <param name="___m_mousePosition">PropTool private field m_mousePosition (used for prop placement).</param>
-        [HarmonyPatch("CreateProp")]
-        [HarmonyPrefix]
-        public static void CreatePropPrefix(ref Vector3 ___m_mousePosition)
-        {
-            // Apply elevation adjustment.
-            ___m_mousePosition.y += s_elevationAdjustment;
-        }
-
-        /// <summary>
         /// Harmony postifx to PropTool.OnToolLateUpdate to implement prop elevation adjustment.
         /// </summary>
         /// <param name="___m_cachedPosition">PropTool private field m_cachedPosition (used for prop preview rendering).</param>

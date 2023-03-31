@@ -5,25 +5,30 @@
 
 namespace PropControl.Patches
 {
-    using AlgernonCommons;
     using HarmonyLib;
+    using UnityEngine;
 
     /// <summary>
     /// Harmony patches to implement prop scaling.
     /// </summary>
     [HarmonyPatch(typeof(PropManager))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class PropManagerPatches
     {
         /// <summary>
         /// Harmony postfix to PropManager.CreateProp to implement prop scaling.
         /// </summary>>
+        /// <param name="__instance">PropManager instance.</param>
         /// <param name="prop">ID of newly-created prop.</param>
         [HarmonyPatch(nameof(PropManager.CreateProp))]
         [HarmonyPostfix]
-        public static void SetBlockedPostfix(ushort prop)
+        public static void CreatePropPostfix(PropManager __instance, ushort prop)
         {
             if (prop != 0)
             {
+                ref PropInstance propInstance = ref __instance.m_props.m_buffer[prop];
+                propInstance.Position += new Vector3(0f, PropToolPatches.ElevationAdjustment, 0f);
+
                 PropInstancePatches.ScalingArray[prop] = PropToolPatches.Scaling;
             }
         }

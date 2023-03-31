@@ -9,6 +9,7 @@ namespace PropControl
     using System.Xml.Serialization;
     using AlgernonCommons.Keybinding;
     using AlgernonCommons.XML;
+    using PropControl.Patches;
     using static Patches.PropInfoPatches;
 
     /// <summary>
@@ -22,6 +23,12 @@ namespace PropControl
         /// </summary>
         [XmlIgnore]
         private static readonly string SettingsFileName = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "PropControl.xml");
+
+        /// <summary>
+        /// Gets or sets a value indicating whether prop Y-positions should be updated on terrain changes.
+        /// </summary>
+        [XmlElement("UpdateOnTerrain")]
+        public bool UpdateOnTerrain { get => PropInstancePatches.UpdateOnTerrain; set => PropInstancePatches.UpdateOnTerrain = value; }
 
         /// <summary>
         /// Gets or sets the prop anarchy hotkey.
