@@ -22,7 +22,6 @@ namespace PropControl.Patches
         [HarmonyPostfix]
         public static void SetBlockedPostfix(ushort prop)
         {
-            Logging.KeyMessage("Created prop ", prop);
             if (prop != 0)
             {
                 PropInstancePatches.ScalingArray[prop] = PropToolPatches.Scaling;

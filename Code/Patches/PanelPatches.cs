@@ -37,11 +37,12 @@ namespace PropControl.Patches
         }
 
         /// <summary>
-        /// Harmony postfix patch to reset scaling when a new prop is selected.
+        /// Harmony postfix patch to reset scaling and elevation adjustment when a new prop is selected.
         /// </summary>
         public static void Postfix()
         {
-            PropToolPatches.Scaling = 1.0f;
+            PropToolPatches.Scaling = PropToolPatches.DefaultScale;
+            PropToolPatches.ElevationAdjustment = PropToolPatches.DefaultElevationAdjustment;
         }
     }
 }

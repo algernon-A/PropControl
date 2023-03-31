@@ -153,7 +153,7 @@ namespace PropControl.Patches
         public static float RenderDistanceThresholdEffects { get; set; } = 100000f; // Game default 1000f
 
         /// <summary>
-        /// Harmony pre-emptive Prefix to PropInfo.RefreshLevelOfDetail setter to implement adaptive prop visibility distance.
+        /// Harmony pre-emptive prefix to PropInfo.RefreshLevelOfDetail setter to implement adaptive prop visibility distance.
         /// </summary>
         /// <param name="__instance">PropInfo instance.</param>
         /// <returns>Always false (never execute original method).</returns>

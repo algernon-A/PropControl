@@ -55,6 +55,20 @@ namespace PropControl
             anarchyKeyMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += anarchyKeyMapping.Panel.height + Margin;
 
+            // Raise elevation key control.
+            OptionsKeymapping elevationUpMapping = this.gameObject.AddComponent<OptionsKeymapping>();
+            elevationUpMapping.Label = Translations.Translate("KEY_ELEVATION_UP");
+            elevationUpMapping.Binding = UIThreading.ScaleUpKey;
+            elevationUpMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
+            currentY += elevationUpMapping.Panel.height + Margin;
+
+            // Lower elevation key control.
+            OptionsKeymapping elevationDownMapping = this.gameObject.AddComponent<OptionsKeymapping>();
+            elevationDownMapping.Label = Translations.Translate("KEY_ELEVATION_DOWN");
+            elevationDownMapping.Binding = UIThreading.ScaleDownKey;
+            elevationDownMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
+            currentY += elevationDownMapping.Panel.height + Margin;
+
             // Upscaling key control.
             OptionsKeymapping scaleUpMapping = this.gameObject.AddComponent<OptionsKeymapping>();
             scaleUpMapping.Label = Translations.Translate("KEY_SCALE_UP");
@@ -69,9 +83,9 @@ namespace PropControl
             scaleDownMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += scaleDownMapping.Panel.height + Margin;
 
-            UISlider scaleDelaySlider = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("SCALING_DELAY"), 0.1f, 1.0f, 0.05f, UIThreading.ScalingDelay);
-            scaleDelaySlider.eventValueChanged += (c, value) => UIThreading.ScalingDelay = value;
-            currentY += scaleDelaySlider.parent.height + 40f;
+            UISlider keyDelaySlider = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("REPEAT_DELAY"), 0.1f, 1.0f, 0.05f, UIThreading.KeyRepeatDelay);
+            keyDelaySlider.eventValueChanged += (c, value) => UIThreading.KeyRepeatDelay = value;
+            currentY += keyDelaySlider.parent.height + 40f;
 
             // Adaptive prop visibility sliders.
             UISpacers.AddTitleSpacer(this, 0f, currentY, OptionsPanelManager<OptionsPanel>.PanelWidth, Translations.Translate("PROP_VISIBILITY"));

@@ -68,7 +68,7 @@ namespace PropControl.Patches
         }
 
         /// <summary>
-        /// Harmony pre-emptive Prefix to PropInstance.Position getter to implement prop precision.
+        /// Harmony pre-emptive prefix to PropInstance.Position getter to implement prop precision.
         /// </summary>
         /// <param name="__instance">PropInstance instance.</param>
         /// <param name="__result">Original getter result.</param>
@@ -138,7 +138,7 @@ namespace PropControl.Patches
         }
 
         /// <summary>
-        /// Harmony pre-emptive Prefix to PropInstance.Position setter to implement prop precision.
+        /// Harmony pre-emptive prefix to PropInstance.Position setter to implement prop precision.
         /// </summary>
         /// <param name="__instance">PropInstance instance.</param>
         /// <param name="value">Original setter argument.</param>
@@ -190,7 +190,7 @@ namespace PropControl.Patches
         }
 
         /// <summary>
-        /// Harmony pre-emptive Prefix to PropInstance.CalculateProp to implement prop snapping.
+        /// Harmony pre-emptive prefix to PropInstance.CalculateProp to implement prop snapping.
         /// </summary>
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.CalculateProp))]
@@ -198,7 +198,7 @@ namespace PropControl.Patches
         public static bool CalculatePropPrefix() => false;
 
         /// <summary>
-        /// Harmony pre-emptive Prefix to PropInstance.AfterTerrainUpdated to implement prop snapping.
+        /// Harmony pre-emptive prefix to PropInstance.AfterTerrainUpdated to implement prop snapping.
         /// </summary>
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.AfterTerrainUpdated))]
@@ -206,7 +206,7 @@ namespace PropControl.Patches
         public static bool AfterTerrainUpdatedPrefix() => false;
 
         /// <summary>
-        /// Harmony Transpiler for PropInstance.RenderInstance to implement prop scaling.
+        /// Harmony transpiler for PropInstance.RenderInstance to implement prop scaling.
         /// </summary>
         /// <param name="instructions">Original ILCode.</param>
         /// <returns>Modified ILCode.</returns>

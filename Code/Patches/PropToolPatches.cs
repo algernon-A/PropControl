@@ -11,6 +11,7 @@ namespace PropControl.Patches
     using AlgernonCommons;
     using ColossalFramework;
     using HarmonyLib;
+    using UnityEngine;
     using static ToolBase;
 
     /// <summary>
@@ -20,8 +21,21 @@ namespace PropControl.Patches
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     public static class PropToolPatches
     {
+        /// <summary>
+        /// Default prop scaling factor.
+        /// </summary>
+        internal const float DefaultScale = 1.0f;
+
+        /// <summary>
+        /// Default elevation adjustment factor.
+        /// </summary>
+        internal const float DefaultElevationAdjustment = 0f;
+
         // Prop scaling factor.
-        private static float s_scaling = 1.0f;
+        private static float s_scaling = DefaultScale;
+
+        // Prop elevation adjustment.
+        private static float s_elevationAdjustment = DefaultElevationAdjustment;
 
         /// <summary>
         /// Gets or sets a value indicating whether prop anarchy is enabled.
@@ -46,17 +60,60 @@ namespace PropControl.Patches
         }
 
         /// <summary>
-        /// Harmony pre-emptive Prefix to PropTool.CheckPlacementErrors to implement prop tool anarchy.
+        /// Gets or sets the current elevation adjustment.
+        /// </summary>
+        internal static float ElevationAdjustment
+        {
+            get => s_elevationAdjustment;
+
+            set
+            {
+                // Only change value if a prop is selected.
+                if (Singleton<ToolController>.instance.CurrentTool is PropTool propTool && propTool.m_prefab is PropInfo)
+                {
+                    s_elevationAdjustment = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Harmony pre-emptive prefix to PropTool.CheckPlacementErrors to implement prop tool anarchy.
         /// </summary>
         /// <param name="__result">Original method result.</param>
-        /// <returns>Always false (never execute original method).</returns>
+        /// <returns>False (don't execute original method) if anarchy is enabled, true otherwise.</returns>
         [HarmonyPatch(nameof(PropTool.CheckPlacementErrors))]
         [HarmonyPrefix]
         public static bool CheckPlacementErrorsPrefix(out ToolErrors __result)
         {
-            // Override original result.
+            // Set default original result to no errors.
             __result = ToolErrors.None;
+
+            // If anarchy isn't enabled, go on to execute original method (will override default original result assigned above).
             return !AnarchyEnabled;
+        }
+
+        /// <summary>
+        /// Harmony prefix to PropTool.CreateProp to implement prop elevation adjustment.
+        /// </summary>
+        /// <param name="___m_mousePosition">PropTool private field m_mousePosition (used for prop placement).</param>
+        [HarmonyPatch("CreateProp")]
+        [HarmonyPrefix]
+        public static void CreatePropPrefix(ref Vector3 ___m_mousePosition)
+        {
+            // Apply elevation adjustment.
+            ___m_mousePosition.y += s_elevationAdjustment;
+        }
+
+        /// <summary>
+        /// Harmony postifx to PropTool.OnToolLateUpdate to implement prop elevation adjustment.
+        /// </summary>
+        /// <param name="___m_cachedPosition">PropTool private field m_cachedPosition (used for prop preview rendering).</param>
+        [HarmonyPatch("OnToolLateUpdate")]
+        [HarmonyPostfix]
+        public static void OnToolLateUpdatePostfix(ref Vector3 ___m_cachedPosition)
+        {
+            // Apply elevation adjustment.
+            ___m_cachedPosition.y += s_elevationAdjustment;
         }
 
         /// <summary>

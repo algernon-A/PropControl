@@ -18,7 +18,7 @@ namespace PropControl.Patches
     public static class DataSerializerPatches
     {
         /// <summary>
-        /// Harmony Transpiler to DataSerializer.WriteSharedType setter to pretend to be the original BP Prop Snapping mod when saving data.
+        /// Harmony transpiler to DataSerializer.WriteSharedType setter to pretend to be the original BP Prop Snapping mod when saving data.
         /// </summary>
         /// <param name="instructions">Original ILCode.</param>
         /// <returns>Modified ILCode.</returns>

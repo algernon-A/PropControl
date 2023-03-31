@@ -6,6 +6,7 @@
 namespace PropControl
 {
     using AlgernonCommons.Keybinding;
+    using ColossalFramework;
     using ICities;
     using PropControl.Patches;
     using UnityEngine;
@@ -21,6 +22,12 @@ namespace PropControl
         // Scaling step - repeating, per second.
         private const float RepeatScalingIncrement = 0.5f;
 
+        // Elevation step - initial (on keydown).
+        private const float InitialElevationIncrement = 0.1f;
+
+        // Scaling step - repeating, per second.
+        private const float RepeatElevationIncrement = 5.0f;
+
         // Delay before key repeating activates.
         private static float s_initialRepeatDelay = 0.35f;
 
@@ -30,11 +37,15 @@ namespace PropControl
         // Function keys.
         private static Keybinding s_scaleUpKey = new Keybinding(KeyCode.Period, false, false, false);
         private static Keybinding s_scaleDownKey = new Keybinding(KeyCode.Comma, false, false, false);
+        private static Keybinding s_elevationUpKey = new Keybinding(KeyCode.PageUp, false, false, false);
+        private static Keybinding s_elevationDownKey = new Keybinding(KeyCode.PageDown, false, false, false);
 
         // Flags.
         private bool _anarchyKeyProcessed = false;
         private bool _scaleUpKeyProcessed = false;
         private bool _scaleDownKeyProcessed = false;
+        private bool _elevationUpKeyProcessed = false;
+        private bool _elevationDownKeyProcessed = false;
 
         // Timestamps.
         private float _keyTimer;
@@ -55,9 +66,19 @@ namespace PropControl
         internal static Keybinding ScaleDownKey { get => s_scaleDownKey; set => s_scaleDownKey = value; }
 
         /// <summary>
+        /// Gets or sets the prop upscaling key.
+        /// </summary>
+        internal static Keybinding ElevationUpKey { get => s_elevationUpKey; set => s_elevationUpKey = value; }
+
+        /// <summary>
+        /// Gets or sets the prop downscaling key.
+        /// </summary>
+        internal static Keybinding ElevationDownKey { get => s_elevationDownKey; set => s_elevationDownKey = value; }
+
+        /// <summary>
         /// Gets or sets the prop scaling key delay.
         /// </summary>
-        internal static float ScalingDelay { get => s_initialRepeatDelay; set => s_initialRepeatDelay = value; }
+        internal static float KeyRepeatDelay { get => s_initialRepeatDelay; set => s_initialRepeatDelay = value; }
 
         /// <summary>
         /// Look for keypress to activate tool.
@@ -83,6 +104,12 @@ namespace PropControl
             {
                 // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
                 _anarchyKeyProcessed = false;
+            }
+
+            // Don't do anything else if the prop tool isn't selected.
+            if (!(Singleton<ToolController>.instance.CurrentTool is PropTool propTool && propTool.m_prefab is PropInfo))
+            {
+                return;
             }
 
             // Check for upscaling keypress.
@@ -149,6 +176,72 @@ namespace PropControl
             {
                 // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
                 _scaleDownKeyProcessed = false;
+            }
+
+            // Check for elevation up hotkey.
+            if (s_elevationUpKey.IsPressed())
+            {
+                // Get time.
+                float now = Time.time;
+
+                // Only process if we're not already doing so.
+                if (!_elevationUpKeyProcessed)
+                {
+                    // Set processed flag.
+                    _elevationUpKeyProcessed = true;
+
+                    // Increment scaling.
+                    PropToolPatches.ElevationAdjustment += InitialElevationIncrement;
+
+                    // Record keypress time.
+                    _keyTimer = now + s_initialRepeatDelay;
+                }
+                else
+                {
+                    // Handle key repeat, if appropriate.
+                    if (now > _keyTimer)
+                    {
+                        PropToolPatches.ElevationAdjustment += RepeatElevationIncrement * Time.deltaTime;
+                    }
+                }
+            }
+            else
+            {
+                // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
+                _elevationUpKeyProcessed = false;
+            }
+
+            // Check for elevation down hotkey.
+            if (s_elevationDownKey.IsPressed())
+            {
+                // Get time.
+                float now = Time.time;
+
+                // Only process if we're not already doing so.
+                if (!_elevationDownKeyProcessed)
+                {
+                    // Set processed flag.
+                    _elevationDownKeyProcessed = true;
+
+                    // Increment scaling.
+                    PropToolPatches.ElevationAdjustment -= InitialElevationIncrement;
+
+                    // Record keypress time.
+                    _keyTimer = now + s_initialRepeatDelay;
+                }
+                else
+                {
+                    // Handle key repeat, if appropriate.
+                    if (now > _keyTimer)
+                    {
+                        PropToolPatches.ElevationAdjustment -= RepeatElevationIncrement * Time.deltaTime;
+                    }
+                }
+            }
+            else
+            {
+                // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
+                _elevationDownKeyProcessed = false;
             }
         }
     }
