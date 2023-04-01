@@ -274,8 +274,9 @@ namespace PropControl.Patches
         {
             if (s_updateOnTerrain)
             {
-                // Default game behaviour - return terrain height.
-                return terrainY;
+                // Default game behaviour - terrain height.
+                // However, only this if the TerrainTool is active, to avoid surface ruining changes triggering a reset of newly-placed props.
+                return Singleton<ToolController>.instance.CurrentTool is TerrainTool ? terrainY : propY;
             }
 
             if (s_keepAboveGround)
