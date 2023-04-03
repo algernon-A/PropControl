@@ -5,6 +5,7 @@
 
 namespace PropControl
 {
+    using System.Collections.Generic;
     using AlgernonCommons.Patching;
     using ICities;
 
@@ -13,6 +14,11 @@ namespace PropControl
     /// </summary>
     public sealed class Loading : PatcherLoadingBase<OptionsPanel, PatcherBase>
     {
+        /// <summary>
+        /// Gets a list of permitted loading modes.
+        /// </summary>
+        protected override List<AppMode> PermittedModes => new List<AppMode> { AppMode.Game, AppMode.MapEditor };
+
         /// <summary>
         /// Performs any actions upon successful level loading completion.
         /// </summary>
