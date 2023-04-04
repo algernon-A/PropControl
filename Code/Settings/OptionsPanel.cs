@@ -14,9 +14,10 @@ namespace PropControl
     public sealed class OptionsPanel : UIPanel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OptionsPanel"/> class.
+        /// Called by Unity before the first frame.
+        /// Used to perform setup.
         /// </summary>
-        internal OptionsPanel()
+        public override void Start()
         {
             // Add tabstrip.
             AutoTabstrip tabStrip = AutoTabstrip.AddTabstrip(this, 0f, 0f, OptionsPanelManager<OptionsPanel>.PanelWidth, OptionsPanelManager<OptionsPanel>.PanelHeight, out _, tabHeight: 50f);
