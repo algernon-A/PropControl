@@ -1,3 +1,5 @@
+- Adjust prop anarchy status indicator location when network tool is active
+
 Version 0.9.1 -
 
 - Add support for map editor

@@ -6,6 +6,7 @@
 namespace PropControl
 {
     using AlgernonCommons.Translation;
+    using ColossalFramework;
     using ColossalFramework.UI;
     using PropControl.Patches;
     using UnityEngine;
@@ -54,6 +55,16 @@ namespace PropControl
             bool anarchyEnabled = PropToolPatches.AnarchyEnabled;
             _onLabel.isVisible = anarchyEnabled;
             _offLabel.isVisible = !anarchyEnabled;
+
+            // Set relative postion according to whether or not NetTool is selected..
+            if (Singleton<ToolController>.instance.CurrentTool is NetTool)
+            {
+                _titleLabel.relativePosition = new Vector2(0f, -20f);
+            }
+            else
+            {
+                _titleLabel.relativePosition = new Vector2(0f, 45f);
+            }
         }
 
         /// <summary>
