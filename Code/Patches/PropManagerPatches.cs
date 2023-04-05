@@ -22,7 +22,7 @@ namespace PropControl.Patches
         /// <param name="prop">ID of newly-created prop.</param>
         [HarmonyPatch(nameof(PropManager.CreateProp))]
         [HarmonyPostfix]
-        public static void CreatePropPostfix(PropManager __instance, ushort prop)
+        private static void CreatePropPostfix(PropManager __instance, ushort prop)
         {
             if (prop != 0)
             {

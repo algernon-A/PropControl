@@ -83,7 +83,7 @@ namespace PropControl.Patches
         /// <returns>False (don't execute original method) if anarchy is enabled, true otherwise.</returns>
         [HarmonyPatch(nameof(PropTool.CheckPlacementErrors))]
         [HarmonyPrefix]
-        public static bool CheckPlacementErrorsPrefix(out ToolErrors __result)
+        private static bool CheckPlacementErrorsPrefix(out ToolErrors __result)
         {
             // Set default original result to no errors.
             __result = ToolErrors.None;
@@ -98,7 +98,7 @@ namespace PropControl.Patches
         /// <param name="___m_cachedPosition">PropTool private field m_cachedPosition (used for prop preview rendering).</param>
         [HarmonyPatch("OnToolLateUpdate")]
         [HarmonyPostfix]
-        public static void OnToolLateUpdatePostfix(ref Vector3 ___m_cachedPosition)
+        private static void OnToolLateUpdatePostfix(ref Vector3 ___m_cachedPosition)
         {
             // Apply elevation adjustment.
             ___m_cachedPosition.y += s_elevationAdjustment;
@@ -111,7 +111,7 @@ namespace PropControl.Patches
         /// <returns>Modified ILCode.</returns>
         [HarmonyPatch(nameof(PropTool.RenderGeometry))]
         [HarmonyTranspiler]
-        internal static IEnumerable<CodeInstruction> RenderGeometryTranspiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> RenderGeometryTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // Looking for new RaycastInput constructor call.
             foreach (CodeInstruction instruction in instructions)
@@ -134,7 +134,7 @@ namespace PropControl.Patches
         /// <returns>Modified ILCode.</returns>
         [HarmonyPatch(nameof(PropTool.SimulationStep))]
         [HarmonyTranspiler]
-        internal static IEnumerable<CodeInstruction> SimulationStepTranspiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> SimulationStepTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // Targeting m_currentEditObject alterations.
             int editObjectCount = 0;

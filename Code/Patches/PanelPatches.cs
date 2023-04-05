@@ -21,7 +21,7 @@ namespace PropControl.Patches
         /// Determines list of target methods to patch.
         /// </summary>
         /// <returns>List of target methods to patch.</returns>
-        public static IEnumerable<MethodBase> TargetMethods()
+        private static IEnumerable<MethodBase> TargetMethods()
         {
             // Vanilla game panels.
             yield return AccessTools.Method(typeof(BeautificationPanel), "OnButtonClicked");
@@ -39,7 +39,7 @@ namespace PropControl.Patches
         /// <summary>
         /// Harmony postfix patch to reset scaling and elevation adjustment when a new prop is selected.
         /// </summary>
-        public static void Postfix()
+        private static void Postfix()
         {
             PropToolPatches.Scaling = PropToolPatches.DefaultScale;
             PropToolPatches.ElevationAdjustment = PropToolPatches.DefaultElevationAdjustment;

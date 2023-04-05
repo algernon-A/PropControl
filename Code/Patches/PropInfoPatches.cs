@@ -159,7 +159,7 @@ namespace PropControl.Patches
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInfo.RefreshLevelOfDetail))]
         [HarmonyPrefix]
-        public static bool RefreshLevelOfDetailPrefix(PropInfo __instance)
+        private static bool RefreshLevelOfDetailPrefix(PropInfo __instance)
         {
             // Calculate maximum render distance.
             if (__instance.m_generatedInfo.m_triangleArea == 0.0f || float.IsNaN(__instance.m_generatedInfo.m_triangleArea))
