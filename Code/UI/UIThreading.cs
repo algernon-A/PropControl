@@ -47,7 +47,7 @@ namespace PropControl
         private bool _elevationUpKeyProcessed = false;
         private bool _elevationDownKeyProcessed = false;
 
-        // Timestamps.
+        // Timestamp.
         private float _keyTimer;
 
         /// <summary>
@@ -66,12 +66,12 @@ namespace PropControl
         internal static Keybinding ScaleDownKey { get => s_scaleDownKey; set => s_scaleDownKey = value; }
 
         /// <summary>
-        /// Gets or sets the prop upscaling key.
+        /// Gets or sets the raise elevation key.
         /// </summary>
         internal static Keybinding ElevationUpKey { get => s_elevationUpKey; set => s_elevationUpKey = value; }
 
         /// <summary>
-        /// Gets or sets the prop downscaling key.
+        /// Gets or sets the lower elevation key.
         /// </summary>
         internal static Keybinding ElevationDownKey { get => s_elevationDownKey; set => s_elevationDownKey = value; }
 

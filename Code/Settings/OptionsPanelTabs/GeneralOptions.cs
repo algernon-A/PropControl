@@ -53,7 +53,7 @@ namespace PropControl
             loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
             currentY += loggingCheck.height + GroupMargin;
 
-            // Update on terrain change checkbox.
+            // Update on terrain change checkboxes.
             UICheckBox terrainUpdateCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("TERRAIN_UPDATE"));
             terrainUpdateCheck.tooltip = Translations.Translate("TERRAIN_UPDATE_TIP");
             terrainUpdateCheck.isChecked = Patches.PropInstancePatches.UpdateOnTerrain;

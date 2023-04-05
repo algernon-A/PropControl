@@ -15,7 +15,7 @@ namespace PropControl.Patches
     using static ToolBase;
 
     /// <summary>
-    /// Harmony patch to implement free prop placement.
+    /// Harmony patches to implement prop anarchy, snapping, and scaling.
     /// </summary>
     [HarmonyPatch(typeof(PropTool))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
@@ -136,11 +136,13 @@ namespace PropControl.Patches
         [HarmonyTranspiler]
         internal static IEnumerable<CodeInstruction> SimulationStepTranspiler(IEnumerable<CodeInstruction> instructions)
         {
+            // Targeting m_currentEditObject alterations.
             int editObjectCount = 0;
+            FieldInfo currentEditObject = AccessTools.Field(typeof(RaycastOutput), nameof(RaycastOutput.m_currentEditObject));
 
-            // Looking for new RaycastInput constructor call.
             foreach (CodeInstruction instruction in instructions)
             {
+                // Looking for new RaycastInput constructor call.
                 if (instruction.operand is ConstructorInfo constructor && constructor.DeclaringType == typeof(RaycastInput))
                 {
                     // Change the RaycastInput for prop snapping.
@@ -150,7 +152,7 @@ namespace PropControl.Patches
                     yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PropToolPatches), nameof(PropSnappingRaycast)));
                     continue;
                 }
-                else if (instruction.LoadsField(AccessTools.Field(typeof(RaycastOutput), nameof(RaycastOutput.m_currentEditObject))))
+                else if (instruction.LoadsField(currentEditObject))
                 {
                     // Replace calls to output.m_currentEditObject with predefined values.
                     switch (editObjectCount++)
