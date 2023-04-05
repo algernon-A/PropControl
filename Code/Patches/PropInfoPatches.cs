@@ -14,67 +14,67 @@ namespace PropControl.Patches
     /// </summary>
     [HarmonyPatch(typeof(PropInfo))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
-    public static class PropInfoPatches
+    internal static class PropInfoPatches
     {
         /// <summary>
         /// Minimum permitted fallback distance.
         /// </summary>
-        public const float MinFallbackDistance = 1000f;
+        internal const float MinFallbackDistance = 1000f;
 
         /// <summary>
         /// Maximum permitted fallback distance.
         /// </summary>
-        public const float MaxFallbackDistance = 100000f;
+        internal const float MaxFallbackDistance = 100000f;
 
         /// <summary>
         /// Default fallback distance.
         /// </summary>
-        public const float DefaultFallbackDistance = 1000f;
+        internal const float DefaultFallbackDistance = 1000f;
 
         /// <summary>
         /// Minimum permitted minimum distance.
         /// </summary>
-        public const float MinMinimumDistance = 1f;
+        internal const float MinMinimumDistance = 1f;
 
         /// <summary>
         /// Maximum permitted minimum distance.
         /// </summary>
-        public const float MaxMinimumDistance = 1000f;
+        internal const float MaxMinimumDistance = 1000f;
 
         /// <summary>
         /// Default minimum distance.
         /// </summary>
-        public const float DefaultMinimumDistance = 100f;
+        internal const float DefaultMinimumDistance = 100f;
 
         /// <summary>
         /// Minimum permitted distance multiplier.
         /// </summary>
-        public const float MinDistanceMultiplier = 1f;
+        internal const float MinDistanceMultiplier = 1f;
 
         /// <summary>
         /// Maximum permitted distance multiplier.
         /// </summary>
-        public const float MaxDistanceMultiplier = 1000f;
+        internal const float MaxDistanceMultiplier = 1000f;
 
         /// <summary>
         /// Default distance multiplier.
         /// </summary>
-        public const float DefaultDistanceMultiplier = 200f;
+        internal const float DefaultDistanceMultiplier = 200f;
 
         /// <summary>
         /// Minimum permitted LOD transition distance multiplier.
         /// </summary>
-        public const float MinLODTransitionMultiplier = 0.05f;
+        internal const float MinLODTransitionMultiplier = 0.05f;
 
         /// <summary>
         /// Maximum permitted LOD transition distance multiplier.
         /// </summary>
-        public const float MaxLODTransitionMultiplier = 1.0f;
+        internal const float MaxLODTransitionMultiplier = 1.0f;
 
         /// <summary>
         /// Default LOD transition distance multiplier.
         /// </summary>
-        public const float DefaultLODTransitionMultiplier = 0.25f;
+        internal const float DefaultLODTransitionMultiplier = 0.25f;
 
         // LOD rendering factors.
         private static float s_fallbackRenderDistance = DefaultFallbackDistance;
@@ -86,7 +86,7 @@ namespace PropControl.Patches
         /// Gets or sets the fallback prop render distance.
         /// This is used when no other value can be calculated.
         /// </summary>
-        public static float FallbackRenderDistance
+        internal static float FallbackRenderDistance
         {
             get => s_fallbackRenderDistance;
 
@@ -101,7 +101,7 @@ namespace PropControl.Patches
         /// Gets or sets the minimum visibility distance.
         /// Props will always be visible within this distance.
         /// </summary>
-        public static float MinimumDistance
+        internal static float MinimumDistance
         {
             get => s_minimumDistance;
 
@@ -116,7 +116,7 @@ namespace PropControl.Patches
         /// Gets or sets the distance multiplier.
         /// This determines how far away the prop is visible.
         /// </summary>
-        public static float DistanceMultiplier
+        internal static float DistanceMultiplier
         {
             get => s_distanceMultiplier;
 
@@ -131,7 +131,7 @@ namespace PropControl.Patches
         /// Gets or sets the LOD transition multiplier.
         /// This determines how far away the model will transition from full mesh to LOD.
         /// </summary>
-        public static float LODTransitionMultiplier
+        internal static float LODTransitionMultiplier
         {
             get => s_LODTransitionMultipler;
 
@@ -145,12 +145,12 @@ namespace PropControl.Patches
         /// <summary>
         /// Gets or sets the render distance threshold for props.
         /// </summary>
-        public static float RenderDistanceThreshold { get; set; } = 100000f; // Game default 1000f
+        internal static float RenderDistanceThreshold { get; set; } = 100000f; // Game default 1000f
 
         /// <summary>
         /// Gets or sets the render distance threshold for effects.
         /// </summary>
-        public static float RenderDistanceThresholdEffects { get; set; } = 100000f; // Game default 1000f
+        internal static float RenderDistanceThresholdEffects { get; set; } = 100000f; // Game default 1000f
 
         /// <summary>
         /// Harmony pre-emptive prefix to PropInfo.RefreshLevelOfDetail setter to implement adaptive prop visibility distance.

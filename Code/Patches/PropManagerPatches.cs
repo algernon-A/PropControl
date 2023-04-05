@@ -13,7 +13,7 @@ namespace PropControl.Patches
     /// </summary>
     [HarmonyPatch(typeof(PropManager))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
-    public static class PropManagerPatches
+    internal static class PropManagerPatches
     {
         /// <summary>
         /// Harmony postfix to PropManager.CreateProp to implement prop scaling.

@@ -19,7 +19,7 @@ namespace PropControl.Patches
     /// </summary>
     [HarmonyPatch(typeof(PropTool))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
-    public static class PropToolPatches
+    internal static class PropToolPatches
     {
         /// <summary>
         /// Default prop scaling factor.

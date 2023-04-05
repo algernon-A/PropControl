@@ -18,7 +18,7 @@ namespace PropControl.Patches
     /// </summary>
     [HarmonyPatch(typeof(PropInstance))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
-    public static class PropInstancePatches
+    internal static class PropInstancePatches
     {
         // Prop precision data.
         private static readonly Dictionary<ushort, PrecisionCoordinates> PrecisionData = new Dictionary<ushort, PrecisionCoordinates>();
