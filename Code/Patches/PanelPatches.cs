@@ -12,16 +12,16 @@ namespace PropControl.Patches
     using HarmonyLib;
 
     /// <summary>
-    /// Harmony patches for prefab selection panels to reset scaling when a new prop is selected.
+    /// Harmony patches for prefab selection panels to reset elevation and scaling when a new prop is selected.
     /// </summary>
     [HarmonyPatch]
-    public static class PanelPatches
+    internal static class PanelPatches
     {
         /// <summary>
         /// Determines list of target methods to patch.
         /// </summary>
         /// <returns>List of target methods to patch.</returns>
-        private static IEnumerable<MethodBase> TargetMethods()
+        internal static IEnumerable<MethodBase> TargetMethods()
         {
             // Vanilla game panels.
             yield return AccessTools.Method(typeof(BeautificationPanel), "OnButtonClicked");
@@ -39,7 +39,7 @@ namespace PropControl.Patches
         /// <summary>
         /// Harmony postfix patch to reset scaling and elevation adjustment when a new prop is selected.
         /// </summary>
-        private static void Postfix()
+        internal static void Postfix()
         {
             PropToolPatches.Scaling = PropToolPatches.DefaultScale;
             PropToolPatches.ElevationAdjustment = PropToolPatches.DefaultElevationAdjustment;

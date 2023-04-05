@@ -47,11 +47,8 @@ namespace PropScaling
             byte[] data = serializableDataManager.LoadData(DataID);
             using (MemoryStream stream = new MemoryStream(data))
             {
-                // Serialise extended district data..
+                // Deserialise data.
                 DataSerializer.Deserialize<Data>(stream, DataSerializer.Mode.Memory);
-
-                // Write to savegame.
-                serializableDataManager.SaveData(DataID, stream.ToArray());
             }
         }
 
@@ -71,7 +68,7 @@ namespace PropScaling
 
             using (MemoryStream stream = new MemoryStream())
             {
-                // Serialise extended district data..
+                // Serialise data.
                 DataSerializer.Serialize(stream, DataSerializer.Mode.Memory, DataVersion, new Data());
 
                 // Write to savegame.
