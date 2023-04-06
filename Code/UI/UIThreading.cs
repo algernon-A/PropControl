@@ -76,7 +76,7 @@ namespace PropControl
         internal static Keybinding ElevationDownKey { get => s_elevationDownKey; set => s_elevationDownKey = value; }
 
         /// <summary>
-        /// Gets or sets the prop scaling key delay.
+        /// Gets or sets the key delay.
         /// </summary>
         internal static float KeyRepeatDelay { get => s_initialRepeatDelay; set => s_initialRepeatDelay = value; }
 

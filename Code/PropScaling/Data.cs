@@ -42,7 +42,7 @@ namespace PropScaling
         }
 
         /// <summary>
-        /// Reads prop snapping data (prop heights) to savegame.
+        /// Reads prop scaling data to savegame.
         /// </summary>
         /// <param name="serializer">DataSerializer instance.</param>
         public void Deserialize(DataSerializer serializer)
