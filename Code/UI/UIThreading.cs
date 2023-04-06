@@ -25,7 +25,7 @@ namespace PropControl
         // Elevation step - initial (on keydown).
         private const float InitialElevationIncrement = 0.1f;
 
-        // Scaling step - repeating, per second.
+        // Elevation step - repeating, per second.
         private const float RepeatElevationIncrement = 5.0f;
 
         // Delay before key repeating activates.
@@ -145,7 +145,7 @@ namespace PropControl
                 _scaleUpKeyProcessed = false;
             }
 
-            // Check for upscaling hotkey.
+            // Check for downscaling hotkey.
             if (s_scaleDownKey.IsPressed())
             {
                 // Get time.

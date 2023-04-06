@@ -113,13 +113,13 @@ namespace PropControl.Patches
         [HarmonyTranspiler]
         private static IEnumerable<CodeInstruction> RenderGeometryTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            // Looking for new RaycastInput constructor call.
+            // Looking for stloc.s 4, which stores the previewed prop's scale.
             foreach (CodeInstruction instruction in instructions)
             {
                 if (instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder localBuilder && localBuilder.LocalIndex == 4)
                 {
-                    // Change the RaycastInput for prop snapping.
-                    yield return new CodeInstruction(OpCodes.Ldsfld, typeof(PropToolPatches).GetField(nameof(s_scaling), BindingFlags.NonPublic | BindingFlags.Static));
+                    // Multiply the calculated value by our scaling factor before storing.
+                    yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(PropToolPatches), nameof(s_scaling)));
                     yield return new CodeInstruction(OpCodes.Mul);
                 }
 

@@ -1,3 +1,6 @@
+- Adjust data loading/saving checks in map editor
+
+
 Version 0.9.2 -
 
 - Adjust prop anarchy status indicator location when network tool is active

@@ -73,7 +73,7 @@ namespace PropScaling
             }
             catch (Exception e)
             {
-                Logging.LogException(e, "exception serializing prop scaling data");
+                Logging.LogException(e, "exception deserializing prop scaling data");
             }
         }
 

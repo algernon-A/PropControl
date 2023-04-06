@@ -49,7 +49,7 @@ namespace PropControl.Patches
         internal static Dictionary<ushort, PrecisionCoordinates> PrecisionDict => PrecisionData;
 
         /// <summary>
-        /// Gets the prop scaling data dictionary.
+        /// Gets the prop scaling data array.
         /// </summary>
         internal static float[] ScalingArray => ScalingData;
 
@@ -248,12 +248,12 @@ namespace PropControl.Patches
         [HarmonyTranspiler]
         private static IEnumerable<CodeInstruction> RenderInstanceTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            // Looking for new RaycastInput constructor call.
+            // Looking for stloc.s 4, which is the scale to be rendered.
             foreach (CodeInstruction instruction in instructions)
             {
                 if (instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder localBuilder && localBuilder.LocalIndex == 4)
                 {
-                    // Change the RaycastInput for prop snapping.
+                    // Multiply the calculated value by our scaling factor before storing.
                     yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(PropInstancePatches), nameof(ScalingData)));
                     yield return new CodeInstruction(OpCodes.Ldarg_2);
                     yield return new CodeInstruction(OpCodes.Ldelem, typeof(float));
