@@ -54,7 +54,8 @@ namespace PropControl.Patches
                 // Only change value if a prop is selected.
                 if (Singleton<ToolController>.instance.CurrentTool is PropTool propTool && propTool.m_prefab is PropInfo)
                 {
-                    s_scaling = value;
+                    // Enforce minimum bound.
+                    s_scaling = Mathf.Max(0.01f, value);
                 }
             }
         }
