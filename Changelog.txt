@@ -1,3 +1,5 @@
+Version 0.9.3 -
+
 - Add error detection and recovery for invalid scaling or snapping data
 - Adjust data loading/saving checks in map editor
 - Status label adjusts position if network tool is selected
