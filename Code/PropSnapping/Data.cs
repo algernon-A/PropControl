@@ -62,7 +62,21 @@ namespace PropSnapping
                 EncodedArray.UShort heights = EncodedArray.UShort.BeginRead(serializer);
                 for (int i = 0; i < bufferSize; ++i)
                 {
-                    propBuffer[i].m_posY = heights.Read();
+                    ushort height = heights.Read();
+
+                    // Check for questionable data - ignore 0x0000 and 0xFFFF.
+                    if (height != 0 & height != ushort.MaxValue)
+                    {
+                        propBuffer[i].m_posY = height;
+                    }
+                    else
+                    {
+                        // Clear the fixed height flag of any prop without valid snapping data.
+                        if (!propBuffer[i].FixedHeight)
+                        {
+                            propBuffer[i].FixedHeight = false;
+                        }
+                    }
                 }
 
                 heights.EndRead();

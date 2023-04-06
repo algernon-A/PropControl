@@ -68,7 +68,15 @@ namespace PropScaling
                 // Read each prop scale entry.
                 for (int i = 0; i < ScalingArray.Length; ++i)
                 {
-                    ScalingArray[i] = serializer.ReadFloat();
+                    float scale = serializer.ReadFloat();
+
+                    // Check for invalid data and set to 1.
+                    if (scale == 0f | scale == float.NaN)
+                    {
+                        scale = 1f;
+                    }
+
+                    ScalingArray[i] = scale;
                 }
             }
             catch (Exception e)
