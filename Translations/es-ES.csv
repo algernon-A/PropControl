@@ -18,7 +18,7 @@
 "ON","Activado","Prop anarchy status indicator text."
 "OFF","Desactivado","Prop anarchy status indicator text."
 "KEYS","Teclas","Options panel title."
-"KEY_ANARCHY","Apagar/encender prop anarchy","Options panel key setting text."
+"KEY_ANARCHY","Alternar prop anarchy","Options panel key setting text."
 "KEY_ELEVATION_UP","Elevar prop","Options panel key setting text."
 "KEY_ELEVATION_DOWN","Descender prop","Options panel key setting text."
 "KEY_SCALE_UP","Aumentar tamaño del prop","Options panel key setting text."
