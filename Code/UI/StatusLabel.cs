@@ -6,6 +6,7 @@
 namespace PropControl
 {
     using AlgernonCommons.Translation;
+    using AlgernonCommons.UI;
     using ColossalFramework;
     using ColossalFramework.UI;
     using PropControl.Patches;
@@ -29,9 +30,11 @@ namespace PropControl
         {
             base.Start();
 
+            // Set initial position.
+            absolutePosition = GameObject.Find("OptionsBar").GetComponent<UIPanel>().absolutePosition;
+
             // Add the text label.
-            _titleLabel = GameObject.Find("OptionsBar").GetComponent<UIPanel>().AddUIComponent<UILabel>();
-            _titleLabel.relativePosition = new Vector2(0f, 45f);
+            _titleLabel = AddUIComponent<UILabel>();
             _titleLabel.text = Translations.Translate("ANARCHY_STATUS");
 
             // On and off labels.
