@@ -35,7 +35,12 @@ namespace PropControl
                 {
                     // Update value and toggle patch application.
                     s_enableAdaptiveVisibility = value;
-                    PatcherManager<Patcher>.Instance.PatchAdaptiveVisibility(value);
+
+                    // Toggle patch if the patcher is ready.
+                    if (PatcherManager<Patcher>.IsReady)
+                    {
+                        PatcherManager<Patcher>.Instance.PatchAdaptiveVisibility(value);
+                    }
                 }
             }
         }
