@@ -1,4 +1,6 @@
 
+Version 0.9.3 -
+
 - Adaptive prop visibility distance is now optional and disabled by default
 - Code adaptions for Remove EML data conversion
 
