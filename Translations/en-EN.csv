@@ -26,3 +26,4 @@
 "KEY_SCALE_UP","Increase prop scale","Options panel key setting text."
 "KEY_SCALE_DOWN","Decrease prop scale","Options panel key setting text."
 "REPEAT_DELAY","Key repeat delay (seconds)","Options panel slider text."
+"RESET_DEFAULT","Reset to defaults","Options panel button text."
