@@ -44,6 +44,7 @@ namespace PropControl
             // Update on terrain change checkboxes.
             UICheckBox enableAPVDCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("ADAPTIVE_VISIBILITY"));
             enableAPVDCheck.tooltip = Translations.Translate("ADAPTIVE_VISIBILITY_TIP");
+            enableAPVDCheck.isChecked = Patcher.EnableAdaptiveVisibility;
             currentY += enableAPVDCheck.height + GroupMargin;
 
             // Create sub-panel for sliders.
@@ -93,8 +94,8 @@ namespace PropControl
                 _sliderPanel.isVisible = isChecked;
             };
 
-            // Set initial enabled state.
-            enableAPVDCheck.isChecked = Patcher.EnableAdaptiveVisibility;
+            // Set slider panel initial visibility.
+            _sliderPanel.isVisible = enableAPVDCheck.isChecked;
         }
     }
 }
