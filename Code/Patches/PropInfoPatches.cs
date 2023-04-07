@@ -6,13 +6,11 @@
 namespace PropControl.Patches
 {
     using AlgernonCommons.Patching;
-    using HarmonyLib;
     using UnityEngine;
 
     /// <summary>
     /// Harmony patches to implement adaptive prop visibility distance.
     /// </summary>
-    [HarmonyPatch(typeof(PropInfo))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "Harmony")]
     internal static class PropInfoPatches
     {
@@ -93,7 +91,7 @@ namespace PropControl.Patches
             set
             {
                 s_fallbackRenderDistance = Mathf.Clamp(value, MinFallbackDistance, MaxFallbackDistance);
-                Refresh();
+                RefreshLODs();
             }
         }
 
@@ -108,7 +106,8 @@ namespace PropControl.Patches
             set
             {
                 s_minimumDistance = Mathf.Clamp(value, MinMinimumDistance, MaxMinimumDistance);
-                Refresh();
+
+                RefreshLODs();
             }
         }
 
@@ -123,7 +122,7 @@ namespace PropControl.Patches
             set
             {
                 s_distanceMultiplier = Mathf.Clamp(value, MinDistanceMultiplier, MaxDistanceMultiplier);
-                Refresh();
+                RefreshLODs();
             }
         }
 
@@ -138,7 +137,7 @@ namespace PropControl.Patches
             set
             {
                 s_LODTransitionMultipler = Mathf.Clamp(value, MinLODTransitionMultiplier, MaxLODTransitionMultiplier);
-                Refresh();
+                RefreshLODs();
             }
         }
 
@@ -157,9 +156,7 @@ namespace PropControl.Patches
         /// </summary>
         /// <param name="__instance">PropInfo instance.</param>
         /// <returns>Always false (never execute original method).</returns>
-        [HarmonyPatch(nameof(PropInfo.RefreshLevelOfDetail))]
-        [HarmonyPrefix]
-        private static bool RefreshLevelOfDetailPrefix(PropInfo __instance)
+        internal static bool RefreshLevelOfDetailPrefix(PropInfo __instance)
         {
             // Calculate maximum render distance.
             if (__instance.m_generatedInfo.m_triangleArea == 0.0f || float.IsNaN(__instance.m_generatedInfo.m_triangleArea))
@@ -216,15 +213,20 @@ namespace PropControl.Patches
         /// <summary>
         /// Refreshes all prop LODs.
         /// </summary>
-        private static void Refresh()
+        /// <param name="forceRefresh">True to force a refresh of LODs even when adaptive visibility isn't active.</param>
+        internal static void RefreshLODs(bool forceRefresh = false)
         {
             // Don't do anything if we haven't loaded yet.
             if (PatcherLoadingBase<OptionsPanel, PatcherBase>.IsLoaded)
             {
-                // Iterate through all loaded props and refresh their LODs with current settings.
-                for (ushort i = 0; i < PrefabCollection<PropInfo>.LoadedCount(); ++i)
+                // Only refresh if adaptive visibility is enabled, or if we're forcing a refresh anyway.
+                if (forceRefresh || Patcher.EnableAdaptiveVisibility)
                 {
-                    PrefabCollection<PropInfo>.GetLoaded(i)?.RefreshLevelOfDetail();
+                    // Iterate through all loaded props and refresh their LODs with current settings.
+                    for (ushort i = 0; i < PrefabCollection<PropInfo>.LoadedCount(); ++i)
+                    {
+                        PrefabCollection<PropInfo>.GetLoaded(i)?.RefreshLevelOfDetail();
+                    }
                 }
             }
         }

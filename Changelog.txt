@@ -1,3 +1,8 @@
+
+- Adaptive prop visibility distance is now optional and disabled by default
+- Code adaptions for Remove EML data conversion
+
+
 Version 0.9.2 -
 
 - Adjust prop anarchy status indicator location when network tool is active

@@ -33,25 +33,43 @@ namespace PropControl
             // Y position indicator.
             float currentY = GroupMargin;
 
+            // Update on terrain change checkboxes.
+            UICheckBox enableAPVDCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("ADAPTIVE_VISIBILITY"));
+            enableAPVDCheck.tooltip = Translations.Translate("ADAPTIVE_VISIBILITY_TIP");
+            enableAPVDCheck.isChecked = Patcher.EnableAdaptiveVisibility;
+            currentY += enableAPVDCheck.height + GroupMargin;
+
             UISlider fallbackDistanceSlider = UISliders.AddPlainSliderWithValue(panel, LeftMargin, currentY, Translations.Translate("FALLBACK_DISTANCE"), MinFallbackDistance, MaxFallbackDistance, 1000f, FallbackRenderDistance);
             fallbackDistanceSlider.eventValueChanged += (c, value) => FallbackRenderDistance = value;
-            fallbackDistanceSlider.tooltip = Translations.Translate("FALLBACK_DISTANCE_TIP");
+            fallbackDistanceSlider.parent.tooltip = Translations.Translate("FALLBACK_DISTANCE_TIP");
             currentY += fallbackDistanceSlider.parent.height + Margin;
 
             UISlider minimumDistanceSlider = UISliders.AddPlainSliderWithValue(panel, LeftMargin, currentY, Translations.Translate("MIN_DISTANCE"), MinMinimumDistance, MaxMinimumDistance, 1f, MinimumDistance);
             minimumDistanceSlider.eventValueChanged += (c, value) => MinimumDistance = value;
-            minimumDistanceSlider.tooltip = Translations.Translate("MIN_DISTANCE_TIP");
+            minimumDistanceSlider.parent.tooltip = Translations.Translate("MIN_DISTANCE_TIP");
             currentY += minimumDistanceSlider.parent.height + Margin;
 
             UISlider distanceMultiplierSlider = UISliders.AddPlainSliderWithValue(panel, LeftMargin, currentY, Translations.Translate("DISTANCE_MULT"), MinDistanceMultiplier, MaxDistanceMultiplier, 1f, DistanceMultiplier);
             distanceMultiplierSlider.eventValueChanged += (c, value) => DistanceMultiplier = value;
-            distanceMultiplierSlider.tooltip = Translations.Translate("DISTANCE_MULT_TIP");
+            distanceMultiplierSlider.parent.tooltip = Translations.Translate("DISTANCE_MULT_TIP");
             currentY += distanceMultiplierSlider.parent.height + Margin;
 
             UISlider lodTransitionSlider = UISliders.AddPlainSliderWithValue(panel, LeftMargin, currentY, Translations.Translate("LOD_TRANSITION"), MinLODTransitionMultiplier, MaxLODTransitionMultiplier, 0.05f, LODTransitionMultiplier);
             lodTransitionSlider.eventValueChanged += (c, value) => LODTransitionMultiplier = value;
-            lodTransitionSlider.tooltip = Translations.Translate("LOD_TRANSITION_TIP");
+            lodTransitionSlider.parent.tooltip = Translations.Translate("LOD_TRANSITION_TIP");
             currentY += lodTransitionSlider.parent.height + Margin;
+
+            // Adaptive visibility checkbox event handler.
+            enableAPVDCheck.eventCheckChanged += (c, isChecked) =>
+            {
+                Patcher.EnableAdaptiveVisibility = isChecked;
+
+                // Toggle slider visibility.
+                fallbackDistanceSlider.parent.isVisible = isChecked;
+                minimumDistanceSlider.parent.isVisible = isChecked;
+                distanceMultiplierSlider.parent.isVisible = isChecked;
+                lodTransitionSlider.parent.isVisible = isChecked;
+            };
         }
     }
 }

@@ -12,7 +12,7 @@ namespace PropControl
     /// <summary>
     /// Main loading class: the mod runs from here.
     /// </summary>
-    public sealed class Loading : PatcherLoadingBase<OptionsPanel, PatcherBase>
+    public sealed class Loading : PatcherLoadingBase<OptionsPanel, Patcher>
     {
         /// <summary>
         /// Gets a list of permitted loading modes.

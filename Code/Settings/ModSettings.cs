@@ -73,6 +73,12 @@ namespace PropControl
         public float KeyRepeatDelay { get => UIThreading.KeyRepeatDelay; set => UIThreading.KeyRepeatDelay = value; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether adaptive visibility is enabled.
+        /// </summary>
+        [XmlElement("EnableAdaptiveVisibility")]
+        public bool EnableAdaptiveVisibility { get => Patcher.EnableAdaptiveVisibility; set => Patcher.EnableAdaptiveVisibility = value; }
+
+        /// <summary>
         /// Gets or sets the fallback prop render distance.
         /// </summary>
         [XmlElement("PropFallbackRenderDistance")]

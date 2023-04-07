@@ -6,6 +6,8 @@
 "KEEP_ABOVEGROUND","Keep props above ground","Checkbox in options panel."
 "KEEP_ABOVEGROUND_TIP","If this is selected, props will be raised to ground level if terrain levels are raised above them","Checkbox tooltip in options panel."
 "PROP_VISIBILITY","Prop visibility","Options tab title."
+"ADAPTIVE_VISIBILITY","Enable adaptive visibility distances","Checkbox in options panel."
+"ADAPTIVE_VISIBILITY_TIP","Enabling this will activate dynamic calculation of prop visibility distances based on the size of the prop, using the parameters below.","Checkobx tooltip in options panel"
 "FALLBACK_DISTANCE","Fallback maximum visibility distance","Slider in options panel."
 "FALLBACK_DISTANCE_TIP","This is the maximum visibility distance that will be used if a dynamic distance cannot be calculated.","Slider tooltop in options panel."
 "MIN_DISTANCE","Minimum visibility distance","Slider in options panel."
