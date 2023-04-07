@@ -42,7 +42,14 @@ namespace PropSnapping
             using (MemoryStream stream = new MemoryStream(data))
             {
                 // Deserialise data.
-                DataSerializer.Deserialize<Data>(stream, DataSerializer.Mode.Memory, LegacyTypeConverter);
+                try
+                {
+                    DataSerializer.Deserialize<Data>(stream, DataSerializer.Mode.Memory, LegacyTypeConverter);
+                }
+                catch (Exception e)
+                {
+                    AlgernonCommons.Logging.LogException(e, "exception deserializing snapping data");
+                }
             }
         }
 

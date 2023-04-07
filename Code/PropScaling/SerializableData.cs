@@ -5,6 +5,7 @@
 
 namespace PropScaling
 {
+    using System;
     using System.IO;
     using System.Linq;
     using ColossalFramework.IO;
@@ -41,7 +42,7 @@ namespace PropScaling
             using (MemoryStream stream = new MemoryStream(data))
             {
                 // Deserialise data.
-                DataSerializer.Deserialize<Data>(stream, DataSerializer.Mode.Memory);
+                DataSerializer.Deserialize<Data>(stream, DataSerializer.Mode.Memory, LegacyTypeConverter);
             }
         }
 
@@ -62,5 +63,12 @@ namespace PropScaling
                 serializableDataManager.SaveData(DataID, stream.ToArray());
             }
         }
+
+        /// <summary>
+        /// Legacy container type converter.
+        /// </summary>
+        /// <param name="legacyTypeName">Legacy type name (ignored).</param>
+        /// <returns>ElectricityDataContainer type.</returns>
+        private static Type LegacyTypeConverter(string legacyTypeName) => typeof(Data);
     }
 }
