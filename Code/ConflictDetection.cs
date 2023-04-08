@@ -45,13 +45,7 @@ namespace PropControl
                     LoadingManager.instance.m_introLoaded += DisplayNotification;
 
                     // Also queue the notification for level loading.
-                    LoadingManager.instance.m_levelLoaded += (updateMode) =>
-                    {
-                        if (updateMode == SimulationManager.UpdateMode.LoadGame || updateMode == SimulationManager.UpdateMode.NewGameFromMap)
-                        {
-                            DisplayNotification();
-                        }
-                    };
+                    LoadingManager.instance.m_levelLoaded += (updateMode) => DisplayNotification();
                 }
             }
 
