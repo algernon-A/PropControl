@@ -6,6 +6,8 @@
 "KEEP_ABOVEGROUND","常にPropを地上に配置","Checkbox in options panel."
 "KEEP_ABOVEGROUND_TIP","選択すると地面がPropより上になる場合は、地面の高さまでPropを追従させて持ち上げます。","Checkbox tooltip in options panel."
 "PROP_VISIBILITY","Propの表示","Options tab title."
+"ADAPTIVE_VISIBILITY","Adaptive Visibility Distancesを有効化","Checkbox in options panel."
+"ADAPTIVE_VISIBILITY_TIP","有効時は下記の設定を使用して、Propの大きさをベースにした表示距離の動的な計算が有効になります。","Checkobx tooltip in options panel"
 "FALLBACK_DISTANCE","代替え用の最大の表示距離","Slider in options panel."
 "FALLBACK_DISTANCE_TIP","動的な距離で計算できない場合に、使用される表示距離の最大値です。","Slider tooltop in options panel."
 "MIN_DISTANCE","最小の表示距離","Slider in options panel."
@@ -24,3 +26,4 @@
 "KEY_SCALE_UP","Propのサイズを拡大","Options panel key setting text."
 "KEY_SCALE_DOWN","Propのサイズを縮小","Options panel key setting text."
 "REPEAT_DELAY","キーリピートの遅延時間 (秒)","Options panel slider text."
+"RESET_DEFAULT","デフォルトに戻す","Options panel button text."
