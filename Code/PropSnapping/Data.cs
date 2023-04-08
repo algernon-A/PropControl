@@ -68,7 +68,6 @@ namespace PropSnapping
                     if (height != 0 & height != ushort.MaxValue)
                     {
                         propBuffer[i].m_posY = height;
-                        propBuffer[i].FixedHeight = true;
                     }
                     else
                     {

@@ -210,7 +210,21 @@ namespace PropControl.Patches
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.CalculateProp))]
         [HarmonyPrefix]
-        private static bool CalculatePropPrefix() => false;
+        private static bool CalculatePropPrefix(ref PropInstance __instance)
+        {
+            // Only do this for created props with no recorded Y position.
+            if (((__instance.m_flags & (ushort)PropInstance.Flags.Created) == 1) &
+                     __instance.m_posY == 0)
+            {
+                // Move prop to terrain height.
+                Vector3 position = __instance.Position;
+                position.y = Singleton<TerrainManager>.instance.SampleDetailHeight(position);
+                __instance.m_posY = (ushort)Mathf.Clamp(Mathf.RoundToInt(position.y * 64f), 0, 65535);
+            }
+
+            // Don't execute original method.
+            return false;
+        }
 
         /// <summary>
         /// Harmony transpiler to PropInstance.AfterTerrainUpdated to implement prop snapping.

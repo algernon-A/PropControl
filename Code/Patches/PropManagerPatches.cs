@@ -27,8 +27,11 @@ namespace PropControl.Patches
             if (prop != 0)
             {
                 ref PropInstance propInstance = ref __instance.m_props.m_buffer[prop];
+
+                // Apply elevation adjustment.
                 propInstance.Position += new Vector3(0f, PropToolPatches.ElevationAdjustment, 0f);
 
+                // Record scaling.
                 PropInstancePatches.ScalingArray[prop] = PropToolPatches.Scaling;
             }
         }

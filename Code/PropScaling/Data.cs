@@ -7,6 +7,7 @@ namespace PropScaling
 {
     using System;
     using AlgernonCommons;
+    using ColossalFramework;
     using ColossalFramework.IO;
     using static PropControl.Patches.PropInstancePatches;
 
@@ -65,6 +66,9 @@ namespace PropScaling
                     return;
                 }
 
+                // Local reference.
+                PropManager propManager = Singleton<PropManager>.instance;
+
                 // Read each prop scale entry.
                 for (int i = 0; i < ScalingArray.Length; ++i)
                 {
@@ -76,6 +80,8 @@ namespace PropScaling
                         scale = 1f;
                     }
 
+                    // Update prop after reading scaling data.
+                    propManager.UpdateProp((ushort)i);
                     ScalingArray[i] = scale;
                 }
             }
