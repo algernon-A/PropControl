@@ -72,10 +72,7 @@ namespace PropSnapping
                     else
                     {
                         // Clear the fixed height flag of any prop without valid snapping data.
-                        if (!propBuffer[i].FixedHeight)
-                        {
-                            propBuffer[i].FixedHeight = false;
-                        }
+                        propBuffer[i].FixedHeight = false;
                     }
                 }
 

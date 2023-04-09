@@ -207,6 +207,7 @@ namespace PropControl.Patches
         /// <summary>
         /// Harmony pre-emptive prefix to PropInstance.CalculateProp to implement prop snapping.
         /// </summary>
+        /// <param name="__instance">PropInstance instance.</param>
         /// <returns>Always false (never execute original method).</returns>
         [HarmonyPatch(nameof(PropInstance.CalculateProp))]
         [HarmonyPrefix]
