@@ -25,7 +25,7 @@ namespace PropControl.Patches
         internal const float MaxFallbackDistance = 100000f;
 
         /// <summary>
-        /// Default fallback distance.
+        /// Default fallback render distance.
         /// </summary>
         internal const float DefaultFallbackDistance = 1000f;
 
@@ -106,7 +106,6 @@ namespace PropControl.Patches
             set
             {
                 s_minimumDistance = Mathf.Clamp(value, MinMinimumDistance, MaxMinimumDistance);
-
                 RefreshLODs();
             }
         }
@@ -142,17 +141,17 @@ namespace PropControl.Patches
         }
 
         /// <summary>
-        /// Gets or sets the render distance threshold for props.
+        /// Gets or sets the maximum render distance for props.
         /// </summary>
-        internal static float RenderDistanceThreshold { get; set; } = 100000f; // Game default 1000f
+        private static float RenderDistanceMaximum { get; set; } = 100000f; // Game default 1000f
 
         /// <summary>
         /// Gets or sets the render distance threshold for effects.
         /// </summary>
-        internal static float RenderDistanceThresholdEffects { get; set; } = 100000f; // Game default 1000f
+        private static float EffectRenderDistanceMaximum { get; set; } = 100000f; // Game default 1000f
 
         /// <summary>
-        /// Harmony pre-emptive prefix to PropInfo.RefreshLevelOfDetail setter to implement adaptive prop visibility distance.
+        /// Harmony pre-emptive prefix to PropInfo.RefreshLevelOfDetail to implement adaptive prop visibility distance.
         /// </summary>
         /// <param name="__instance">PropInfo instance.</param>
         /// <returns>Always false (never execute original method).</returns>
@@ -168,7 +167,7 @@ namespace PropControl.Patches
             {
                 // Calculate dynamic visibility distance.
                 double lodFactor = RenderManager.LevelOfDetailFactor * s_distanceMultiplier;
-                __instance.m_maxRenderDistance = Mathf.Min(RenderDistanceThreshold, (float)((Mathf.Sqrt(__instance.m_generatedInfo.m_triangleArea) * lodFactor) + s_minimumDistance));
+                __instance.m_maxRenderDistance = Mathf.Min(RenderDistanceMaximum, (float)((Mathf.Sqrt(__instance.m_generatedInfo.m_triangleArea) * lodFactor) + s_minimumDistance));
             }
 
             // Calculate LOD render distance.
@@ -203,7 +202,7 @@ namespace PropControl.Patches
                     }
                 }
 
-                __instance.m_maxRenderDistance = Mathf.Min(RenderDistanceThresholdEffects, __instance.m_maxRenderDistance);
+                __instance.m_maxRenderDistance = Mathf.Min(EffectRenderDistanceMaximum, __instance.m_maxRenderDistance);
             }
 
             // Pre-empt original method.
