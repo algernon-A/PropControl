@@ -17,7 +17,7 @@ namespace PropControl.Patches
         /// <summary>
         /// Minimum permitted fallback distance.
         /// </summary>
-        internal const float MinFallbackDistance = 1000f;
+        internal const float MinFallbackDistance = 500f;
 
         /// <summary>
         /// Maximum permitted fallback distance.

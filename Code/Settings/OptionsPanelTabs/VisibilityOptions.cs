@@ -41,7 +41,7 @@ namespace PropControl
             // Y position indicator.
             float currentY = GroupMargin;
 
-            // Update on terrain change checkboxes.
+            // Enable adaptive visibility checkbox.
             UICheckBox enableAPVDCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("ADAPTIVE_VISIBILITY"));
             enableAPVDCheck.tooltip = Translations.Translate("ADAPTIVE_VISIBILITY_TIP");
             enableAPVDCheck.isChecked = Patcher.EnableAdaptiveVisibility;
@@ -55,7 +55,7 @@ namespace PropControl
             _sliderPanel.width = panel.width;
             float panelY = 0f;
 
-            _fallbackDistanceSlider = UISliders.AddPlainSliderWithIntegerValue(_sliderPanel, LeftMargin, panelY, Translations.Translate("FALLBACK_DISTANCE"), MinFallbackDistance, MaxFallbackDistance, 1000f, FallbackRenderDistance);
+            _fallbackDistanceSlider = UISliders.AddPlainSliderWithIntegerValue(_sliderPanel, LeftMargin, panelY, Translations.Translate("FALLBACK_DISTANCE"), MinFallbackDistance, MaxFallbackDistance, 100f, FallbackRenderDistance);
             _fallbackDistanceSlider.eventValueChanged += (c, value) => FallbackRenderDistance = value;
             _fallbackDistanceSlider.parent.tooltip = Translations.Translate("FALLBACK_DISTANCE_TIP");
             panelY += _fallbackDistanceSlider.parent.height + Margin;

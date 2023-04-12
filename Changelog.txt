@@ -1,4 +1,5 @@
 - Reset prop fixed height flags on load for props with invalid height data
+- Reduce minimum adaptive visibility fallback distance
 
 
 Version 0.9.3.1 -
