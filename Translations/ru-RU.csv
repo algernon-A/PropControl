@@ -6,6 +6,8 @@
 "KEEP_ABOVEGROUND","Размещать реквизиты над поверхностью","Checkbox in options panel."
 "KEEP_ABOVEGROUND_TIP","Если выбрано, реквизиты будут подняты до уровня поверхности, если уровень местности поднят над ними","Checkbox tooltip in options panel."
 "PROP_VISIBILITY","Видимость реквизита","Options tab title."
+"ADAPTIVE_VISIBILITY","Включить адаптивной видимости расстояния","Checkbox in options panel."
+"ADAPTIVE_VISIBILITY_TIP","Включение этого параметра активирует динамический расчет расстояний видимости реквизитов на основе размера свойства, используя следующие параметры.","Checkobx tooltip in options panel"
 "FALLBACK_DISTANCE","Резервное максимальное расстояние видимости","Slider in options panel."
 "FALLBACK_DISTANCE_TIP","Это максимальное расстояние видимости, которое будет использоваться, если динамическое расстояние не может быть рассчитано.","Slider tooltop in options panel."
 "MIN_DISTANCE","Минимальная дистанция видимости","Slider in options panel."
@@ -24,3 +26,4 @@
 "KEY_SCALE_UP","Увеличение размера реквизитов","Options panel key setting text."
 "KEY_SCALE_DOWN","Уменьшение размера реквизитов","Options panel key setting text."
 "REPEAT_DELAY","Задержка повтора клавиши (секунды)","Options panel slider text."
+"RESET_DEFAULT","Сбросить по умолчанию","Options panel button text."
