@@ -75,7 +75,7 @@ namespace PropSnapping
         /// Legacy container type converter.
         /// </summary>
         /// <param name="legacyTypeName">Legacy type name (ignored).</param>
-        /// <returns>ElectricityDataContainer type.</returns>
+        /// <returns>Data type.</returns>
         private static Type LegacyTypeConverter(string legacyTypeName) => typeof(Data);
     }
 }
