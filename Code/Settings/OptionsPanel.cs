@@ -6,18 +6,16 @@
 namespace PropControl
 {
     using AlgernonCommons.UI;
-    using ColossalFramework.UI;
 
     /// <summary>
     /// The mod's settings options panel.
     /// </summary>
-    public sealed class OptionsPanel : UIPanel
+    public sealed class OptionsPanel : OptionsPanelBase
     {
         /// <summary>
-        /// Called by Unity before the first frame.
-        /// Used to perform setup.
+        /// Performs on-demand panel setup.
         /// </summary>
-        public override void Start()
+        protected override void Setup()
         {
             // Add tabstrip.
             AutoTabstrip tabStrip = AutoTabstrip.AddTabstrip(this, 0f, 0f, OptionsPanelManager<OptionsPanel>.PanelWidth, OptionsPanelManager<OptionsPanel>.PanelHeight, out _, tabHeight: 50f);
