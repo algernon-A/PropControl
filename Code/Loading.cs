@@ -8,6 +8,7 @@ namespace PropControl
     using System.Collections.Generic;
     using AlgernonCommons.Patching;
     using ICities;
+    using PropControl.Patches;
 
     /// <summary>
     /// Main loading class: the mod runs from here.
@@ -32,6 +33,9 @@ namespace PropControl
 
             // Activate display label.
             StatusLabel.CreateLabel();
+
+            // Patch Move It.
+            PropToolPatches.CheckMoveIt();
         }
     }
 }

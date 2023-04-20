@@ -11,6 +11,7 @@ namespace PropControl.Patches
     using AlgernonCommons;
     using ColossalFramework;
     using HarmonyLib;
+    using PropControl.MoveItSupport;
     using UnityEngine;
     using static ToolBase;
 
@@ -37,6 +38,9 @@ namespace PropControl.Patches
         // Prop elevation adjustment.
         private static float s_elevationAdjustment = DefaultElevationAdjustment;
 
+        // Move It patches and integration.
+        private static MoveItPatches s_moveItPatches;
+
         /// <summary>
         /// Gets or sets a value indicating whether prop anarchy is enabled.
         /// </summary>
@@ -51,12 +55,8 @@ namespace PropControl.Patches
 
             set
             {
-                // Only change value if a prop is selected.
-                if (Singleton<ToolController>.instance.CurrentTool is PropTool propTool && propTool.m_prefab is PropInfo)
-                {
-                    // Enforce minimum bound.
-                    s_scaling = Mathf.Max(0.01f, value);
-                }
+                // Enforce minimum bound.
+                s_scaling = Mathf.Max(0.01f, value);
             }
         }
 
@@ -74,6 +74,34 @@ namespace PropControl.Patches
                 {
                     s_elevationAdjustment = value;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Increments the current scaling factor by the provided amount.
+        /// </summary>
+        /// <param name="increment">Amount to increment.</param>
+        internal static void IncrementScaling(float increment)
+        {
+            // Update scaling.
+            Scaling = s_scaling + increment;
+
+            Logging.KeyMessage("IncrementScaling");
+
+            // Change Move It scaling, if applicable.
+            s_moveItPatches?.IncrementScaling(increment);
+        }
+
+        /// <summary>
+        /// Enables Move It integration and patching if Move It is enabled.
+        /// </summary>
+        internal static void CheckMoveIt()
+        {
+            // Check for enabled Move It mod.
+            if (AssemblyUtils.GetEnabledAssembly("MoveIt") is Assembly moveIt)
+            {
+                // Create Move It patching instance.
+                s_moveItPatches = new MoveItPatches(moveIt);
             }
         }
 

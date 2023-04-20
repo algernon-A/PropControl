@@ -1,3 +1,4 @@
+- Add Move It integration
 - Update AlgernonCommons
 
 

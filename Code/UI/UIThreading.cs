@@ -106,12 +106,6 @@ namespace PropControl
                 _anarchyKeyProcessed = false;
             }
 
-            // Don't do anything else if the prop tool isn't selected.
-            if (!(Singleton<ToolController>.instance.CurrentTool is PropTool propTool && propTool.m_prefab is PropInfo))
-            {
-                return;
-            }
-
             // Check for upscaling keypress.
             if (s_scaleUpKey.IsPressed())
             {
@@ -125,7 +119,7 @@ namespace PropControl
                     _scaleUpKeyProcessed = true;
 
                     // Increment scaling.
-                    PropToolPatches.Scaling += InitialScalingIncrement;
+                    PropToolPatches.IncrementScaling(InitialScalingIncrement);
 
                     // Record keypress time.
                     _keyTimer = now + s_initialRepeatDelay;
@@ -135,7 +129,7 @@ namespace PropControl
                     // Handle key repeat, if appropriate.
                     if (now > _keyTimer)
                     {
-                        PropToolPatches.Scaling += RepeatScalingIncrement * Time.deltaTime;
+                        PropToolPatches.IncrementScaling(RepeatScalingIncrement * Time.deltaTime);
                     }
                 }
             }
@@ -158,7 +152,7 @@ namespace PropControl
                     _scaleDownKeyProcessed = true;
 
                     // Increment scaling.
-                    PropToolPatches.Scaling -= InitialScalingIncrement;
+                    PropToolPatches.IncrementScaling(-InitialScalingIncrement);
 
                     // Record keypress time.
                     _keyTimer = now + s_initialRepeatDelay;
@@ -168,7 +162,7 @@ namespace PropControl
                     // Handle key repeat, if appropriate.
                     if (now > _keyTimer)
                     {
-                        PropToolPatches.Scaling -= RepeatScalingIncrement * Time.deltaTime;
+                        PropToolPatches.IncrementScaling(-RepeatScalingIncrement * Time.deltaTime);
                     }
                 }
             }
