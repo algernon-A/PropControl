@@ -86,8 +86,6 @@ namespace PropControl.Patches
             // Update scaling.
             Scaling = s_scaling + increment;
 
-            Logging.KeyMessage("IncrementScaling");
-
             // Change Move It scaling, if applicable.
             s_moveItPatches?.IncrementScaling(increment);
         }

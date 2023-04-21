@@ -22,8 +22,7 @@ namespace PropControl.MoveItSupport
     /// </summary>
     internal class MoveItPatches
     {
-        // Move It type and field - using reflection and delegates here to avoid a hard dependency with Move It.
-        private readonly Type _moveablePropType;
+        // Move It last instance field.
         private readonly FieldInfo _lastInstance;
 
         /// <summary>
@@ -54,13 +53,6 @@ namespace PropControl.MoveItSupport
                 Logging.Error("unable to reflect MoveItTool.treeSnapping field");
             }
 
-            // Get Move It MoveableProp type.
-            _moveablePropType = moveIt.GetType("MoveIt.MoveableProp");
-            if (_moveablePropType == null)
-            {
-                Logging.Error("unable to reflect MoveIt.MoveableProp");
-            }
-
             // Get last instance field.
             _lastInstance = AccessTools.Field(moveItToolType, "m_lastInstance");
             if (_lastInstance == null)
@@ -68,10 +60,10 @@ namespace PropControl.MoveItSupport
                 Logging.Error("unable to reflect MoveItTool.m_lastInstance");
             }
 
-            // Apply tranpiler to MoveIt.RenderCloneGeometry.
-            PatcherManager<Patcher>.Instance.TranspileMethod(
-                AccessTools.Method(_moveablePropType, "RenderCloneGeometryImplementation"),
-                AccessTools.Method(typeof(MoveItPatches), nameof(RenderCloneGeometryImplementationTranspiler)));
+            // Apply SetToolState prefix to reset scaling when selection changes.
+            PatcherManager<Patcher>.Instance.PrefixMethod(
+                AccessTools.Method(typeof(MoveItTool), nameof(MoveItTool.SetToolState)),
+                AccessTools.Method(typeof(MoveItPatches), nameof(SetToolStatePrefix)));
         }
 
         /// <summary>
@@ -80,17 +72,12 @@ namespace PropControl.MoveItSupport
         /// <param name="increment">Scaling increment to apply.</param>
         internal void IncrementScaling(float increment)
         {
-            Logging.KeyMessage("incrementPropSize");
-
             // Check for active Move It tool in its default state.
             if (Singleton<ToolController>.instance.CurrentTool is MoveItTool && MoveItTool.ToolState == MoveItTool.ToolStates.Default)
             {
                 // See if any active selection.
                 if (MoveIt.Action.selection.Count > 0)
                 {
-
-                    Logging.KeyMessage("iterating through props");
-
                     // Active selection - iterate through each item, checking for props.
                     PropManager propManager = Singleton<PropManager>.instance;
                     foreach (Instance instance in MoveIt.Action.selection)
@@ -101,8 +88,6 @@ namespace PropControl.MoveItSupport
                             // Found a prop - apply scaling.
                             float newValue = PropInstancePatches.ScalingArray[propID] + increment;
                             PropInstancePatches.ScalingArray[propID] = Mathf.Max(0.01f, newValue);
-
-                            Logging.KeyMessage("incremented scaling to ", PropInstancePatches.ScalingArray[propID]);
 
                             // Update the prop.
                             propManager.UpdateProp(propID);
@@ -134,25 +119,11 @@ namespace PropControl.MoveItSupport
         }
 
         /// <summary>
-        /// Harmony transpiler for MoveIt.MoveableProp.RenderCloneGeometryImplementation to implement prop scaling.
+        /// Harmony prefix to MoveItTool.SetToolState to reset scaling when Move It state changes.
         /// </summary>
-        /// <param name="instructions">Original ILCode.</param>
-        /// <returns>Modified ILCode.</returns>
-        private static IEnumerable<CodeInstruction> RenderCloneGeometryImplementationTranspiler(IEnumerable<CodeInstruction> instructions)
+        private static void SetToolStatePrefix()
         {
-            // Looking for stloc.3, which stores the previewed prop's scale.
-            foreach (CodeInstruction instruction in instructions)
-            {
-                if (instruction.opcode == OpCodes.Stloc_3)
-                {
-                    // Multiply the calculated value by our scaling factor before storing.
-                    Logging.Message("found stloc.s");
-                    yield return new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(PropToolPatches), "s_scaling"));
-                    yield return new CodeInstruction(OpCodes.Mul);
-                }
-
-                yield return instruction;
-            }
+            PropToolPatches.Scaling = PropToolPatches.DefaultScale;
         }
     }
 }
