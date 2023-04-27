@@ -6,6 +6,8 @@
 "KEEP_ABOVEGROUND","Mantener props sobre el suelo","Checkbox in options panel."
 "KEEP_ABOVEGROUND_TIP","Si se selecciona esta opción, los props se elevarán al nivel del suelo si se elevan los niveles de terreno por encima de ellos","Checkbox tooltip in options panel."
 "PROP_VISIBILITY","Visibilidad de los props","Options tab title."
+"ADAPTIVE_VISIBILITY","Habilitar distancias de visibilidad adaptativa","Checkbox in options panel."
+"ADAPTIVE_VISIBILITY_TIP","Al habilitar esto, se activará el cálculo dinámico de distancias de visibilidad del elemento (prop) en función al tamaño, utilizando los parámetros a continuación.","Checkobx tooltip in options panel"
 "FALLBACK_DISTANCE","Distancia máxima de visibilidad alternativa","Slider in options panel."
 "FALLBACK_DISTANCE_TIP","Esta es la distancia máxima de visibilidad que se usará si no se puede calcular una distancia dinámica.","Slider tooltop in options panel."
 "MIN_DISTANCE","Distancia mínima de visibilidad","Slider in options panel."
@@ -24,3 +26,4 @@
 "KEY_SCALE_UP","Aumentar tamaño del prop","Options panel key setting text."
 "KEY_SCALE_DOWN","Reducir tamaño del prop","Options panel key setting text."
 "REPEAT_DELAY","Retraso de repetición de teclas (segundos)","Options panel slider text."
+"RESET_DEFAULT","Restablecer valores predeterminados","Options panel button text."
