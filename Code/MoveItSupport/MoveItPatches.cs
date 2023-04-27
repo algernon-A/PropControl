@@ -6,9 +6,7 @@
 namespace PropControl.MoveItSupport
 {
     using System;
-    using System.Collections.Generic;
     using System.Reflection;
-    using System.Reflection.Emit;
     using AlgernonCommons;
     using AlgernonCommons.Patching;
     using ColossalFramework;
