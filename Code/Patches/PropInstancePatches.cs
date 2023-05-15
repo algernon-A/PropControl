@@ -287,7 +287,7 @@ namespace PropControl.Patches
         /// <returns>Calculated prop Y coordinate per current settings.</returns>
         private static ushort CalculateElevation(ushort terrainY, ushort propY)
         {
-            if (s_updateOnTerrain)
+            if (s_updateOnTerrain | propY == 0)
             {
                 // Default game behaviour - terrain height.
                 // However, only this if the TerrainTool is active, to avoid surface ruining changes triggering a reset of newly-placed props.
