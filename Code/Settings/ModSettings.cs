@@ -8,6 +8,7 @@ namespace PropControl
     using System.IO;
     using System.Xml.Serialization;
     using AlgernonCommons.Keybinding;
+    using AlgernonCommons.UI;
     using AlgernonCommons.XML;
     using PropControl.Patches;
     using static Patches.PropInfoPatches;
@@ -23,6 +24,30 @@ namespace PropControl
         /// </summary>
         [XmlIgnore]
         private static readonly string SettingsFileName = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "PropControl.xml");
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the status panel should be shown.
+        /// </summary>
+        [XmlElement("ShowButtons")]
+        public bool ShowButtons { get => StatusPanel.ShowButtons; set => StatusPanel.ShowButtons = value; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the status panel should use transparent buttons.
+        /// </summary>
+        [XmlElement("TransparentButtons")]
+        public bool UseTransparentButtons { get => StatusPanel.TransparentUI; set => StatusPanel.TransparentUI = value; }
+
+        /// <summary>
+        /// Gets or sets the panel's saved X-position.
+        /// </summary>
+        [XmlElement("StatusPanelX")]
+        public float StatusPanelX { get => StandalonePanelManager<StatusPanel>.LastSavedXPosition; set => StandalonePanelManager<StatusPanel>.LastSavedXPosition = value; }
+
+        /// <summary>
+        /// Gets or sets the panel's saved Y-position.
+        /// </summary>
+        [XmlElement("StatusPanelY")]
+        public float StatusPanelY { get => StandalonePanelManager<StatusPanel>.LastSavedYPosition; set => StandalonePanelManager<StatusPanel>.LastSavedYPosition = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether prop Y-positions should be updated on terrain changes.
@@ -41,6 +66,12 @@ namespace PropControl
         /// </summary>
         [XmlElement("AnarchyKey")]
         public Keybinding AnarchyKey { get => UIThreading.AnarchyKey; set => UIThreading.AnarchyKey = value; }
+
+        /// <summary>
+        /// Gets or sets the tree anarchy hotkey.
+        /// </summary>
+        [XmlElement("SnappingKey")]
+        public Keybinding SnappingKey { get => UIThreading.SnappingKey; set => UIThreading.SnappingKey = value; }
 
         /// <summary>
         /// Gets or sets the prop upscaling key.

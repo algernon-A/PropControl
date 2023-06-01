@@ -22,7 +22,8 @@ namespace PropControl
 
             // Add tabs and panels.
             new GeneralOptions(tabStrip, 0);
-            new VisibilityOptions(tabStrip, 1);
+            new KeyOptions(tabStrip, 1);
+            new VisibilityOptions(tabStrip, 2);
 
             // Select first tab.
             tabStrip.selectedIndex = -1;

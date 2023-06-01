@@ -6,7 +6,7 @@
 namespace PropControl
 {
     using AlgernonCommons.Keybinding;
-    using ColossalFramework;
+    using AlgernonCommons.UI;
     using ICities;
     using PropControl.Patches;
     using UnityEngine;
@@ -33,6 +33,7 @@ namespace PropControl
 
         // Hotkeys.
         private static Keybinding s_anarchyKey = new Keybinding(KeyCode.P, true, false, false);
+        private static Keybinding s_snappingKey = new Keybinding(KeyCode.S, false, true, true);
 
         // Function keys.
         private static Keybinding s_scaleUpKey = new Keybinding(KeyCode.Period, false, false, false);
@@ -42,6 +43,7 @@ namespace PropControl
 
         // Flags.
         private bool _anarchyKeyProcessed = false;
+        private bool _snappingKeyProcessed = false;
         private bool _scaleUpKeyProcessed = false;
         private bool _scaleDownKeyProcessed = false;
         private bool _elevationUpKeyProcessed = false;
@@ -53,7 +55,34 @@ namespace PropControl
         /// <summary>
         /// Gets or sets the prop anarchy hotkey.
         /// </summary>
-        internal static Keybinding AnarchyKey { get => s_anarchyKey; set => s_anarchyKey = value; }
+        internal static Keybinding AnarchyKey
+        {
+            get => s_anarchyKey;
+
+            set
+            {
+                s_anarchyKey = value;
+
+                // Update button tooltips if status panel exists.
+                StandalonePanelManager<StatusPanel>.Panel?.UpdateTooltips();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the prop snapping hotkey.
+        /// </summary>
+        internal static Keybinding SnappingKey
+        {
+            get => s_snappingKey;
+
+            set
+            {
+                s_snappingKey = value;
+
+                // Update button tooltips if status panel exists.
+                StandalonePanelManager<StatusPanel>.Panel?.UpdateTooltips();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the prop upscaling key.
@@ -104,6 +133,25 @@ namespace PropControl
             {
                 // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
                 _anarchyKeyProcessed = false;
+            }
+
+            // Check for snapping hotkey.
+            if (s_snappingKey.IsPressed())
+            {
+                // Only process if we're not already doing so.
+                if (!_snappingKeyProcessed)
+                {
+                    // Set processed flag.
+                    _snappingKeyProcessed = true;
+
+                    // Toggle anarchy.
+                    PropToolPatches.SnappingEnabled = !PropToolPatches.SnappingEnabled;
+                }
+            }
+            else
+            {
+                // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
+                _snappingKeyProcessed = false;
             }
 
             // Check for upscaling keypress.

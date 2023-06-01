@@ -9,6 +9,7 @@ namespace PropControl.Patches
     using System.Reflection;
     using System.Reflection.Emit;
     using AlgernonCommons;
+    using AlgernonCommons.UI;
     using ColossalFramework;
     using HarmonyLib;
     using PropControl.MoveItSupport;
@@ -32,6 +33,10 @@ namespace PropControl.Patches
         /// </summary>
         internal const float DefaultElevationAdjustment = 0f;
 
+        // Status
+        private static bool s_anarchyEnabled = true;
+        private static bool s_snappingEnabled = false;
+
         // Prop scaling factor.
         private static float s_scaling = DefaultScale;
 
@@ -44,7 +49,34 @@ namespace PropControl.Patches
         /// <summary>
         /// Gets or sets a value indicating whether prop anarchy is enabled.
         /// </summary>
-        internal static bool AnarchyEnabled { get; set; } = true;
+        internal static bool AnarchyEnabled
+        {
+            get => s_anarchyEnabled;
+
+            set
+            {
+                s_anarchyEnabled = value;
+
+                // Update status panel.
+                StandalonePanelManager<StatusPanel>.Panel?.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether prop snapping is enabled.
+        /// </summary>
+        internal static bool SnappingEnabled
+        {
+            get => s_snappingEnabled;
+
+            set
+            {
+                s_snappingEnabled = value;
+
+                // Update status panel.
+                StandalonePanelManager<StatusPanel>.Panel?.Refresh();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the current prop scaling factor.
@@ -209,13 +241,8 @@ namespace PropControl.Patches
         /// <param name="raycast">Raycast to fix.</param>
         private static void PropSnappingRaycast(ref RaycastInput raycast)
         {
-            raycast.m_ignoreBuildingFlags = Building.Flags.None;
-            raycast.m_ignoreNodeFlags = NetNode.Flags.None;
-            raycast.m_ignoreSegmentFlags = NetSegment.Flags.None;
-            raycast.m_buildingService = new RaycastService(ItemClass.Service.None, ItemClass.SubService.None, ItemClass.Layer.Default);
-            raycast.m_netService = new RaycastService(ItemClass.Service.None, ItemClass.SubService.None, ItemClass.Layer.Default);
-            raycast.m_netService2 = new RaycastService(ItemClass.Service.None, ItemClass.SubService.None, ItemClass.Layer.Default);
-            raycast.m_currentEditObject = true;
+            // Building snapping.
+            raycast.m_ignoreBuildingFlags = SnappingEnabled ? Building.Flags.None : Building.Flags.All;
         }
     }
 }

@@ -7,6 +7,7 @@ namespace PropControl
 {
     using System.Collections.Generic;
     using AlgernonCommons.Patching;
+    using AlgernonCommons.UI;
     using ICities;
     using PropControl.Patches;
 
@@ -31,8 +32,11 @@ namespace PropControl
             // Apply decal prop fix.
             new DecalPropFix();
 
-            // Activate display label.
-            StatusLabel.CreateLabel();
+            // Add status panel.
+            if (StatusPanel.ShowButtons)
+            {
+                StandalonePanelManager<StatusPanel>.Create();
+            }
 
             // Patch Move It.
             PropToolPatches.CheckMoveIt();

@@ -6,7 +6,6 @@
 namespace PropControl
 {
     using AlgernonCommons;
-    using AlgernonCommons.Keybinding;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
@@ -36,6 +35,13 @@ namespace PropControl
             // Y position indicator.
             float currentY = GroupMargin;
 
+            // Header.
+            float headerWidth = OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f);
+
+            // UI options.
+            UISpacers.AddTitleSpacer(panel, Margin, currentY, headerWidth, Translations.Translate("UI_OPTIONS"));
+            currentY += TitleMargin;
+
             // Language choice.
             UIDropDown languageDropDown = UIDropDowns.AddPlainDropDown(panel, LeftMargin, currentY, Translations.Translate("LANGUAGE_CHOICE"), Translations.LanguageList, Translations.Index);
             languageDropDown.eventSelectedIndexChanged += (control, index) =>
@@ -46,12 +52,26 @@ namespace PropControl
             languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += languageDropDown.parent.height + Margin;
 
-            // Logging checkbox.
-            currentY += 20f;
-            UICheckBox loggingCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
-            loggingCheck.isChecked = Logging.DetailLogging;
-            loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
-            currentY += loggingCheck.height + GroupMargin;
+            // Show panel checkbox.
+            UICheckBox showButtonCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("SHOW_BUTTONS"));
+            showButtonCheck.isChecked = StatusPanel.ShowButtons;
+            showButtonCheck.eventCheckChanged += (c, isChecked) => { StatusPanel.ShowButtons = isChecked; };
+            currentY += showButtonCheck.height + 10f;
+
+            // UI transparency checkbox.
+            UICheckBox transparencyCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("TRANSPARENT_UI"));
+            transparencyCheck.isChecked = StatusPanel.TransparentUI;
+            transparencyCheck.eventCheckChanged += (c, isChecked) => { StatusPanel.TransparentUI = isChecked; };
+            currentY += transparencyCheck.height + GroupMargin;
+
+            // Reset position button.
+            UIButton resetPositionButton = UIButtons.AddButton(panel, LeftMargin, currentY, Translations.Translate("RESET_POS"), 300f);
+            resetPositionButton.eventClicked += (c, p) => StandalonePanelManager<StatusPanel>.ResetPosition();
+            currentY += resetPositionButton.height + 20f;
+
+            // Prop options.
+            UISpacers.AddTitleSpacer(panel, Margin, currentY, headerWidth, Translations.Translate("PROP_OPTIONS"));
+            currentY += TitleMargin;
 
             // Update on terrain change checkboxes.
             UICheckBox terrainUpdateCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("TERRAIN_UPDATE"));
@@ -66,48 +86,14 @@ namespace PropControl
             keepAboveGroundCheck.eventCheckChanged += (c, isChecked) => { Patches.PropInstancePatches.KeepAboveGround = isChecked; };
             currentY += keepAboveGroundCheck.height + GroupMargin;
 
-            // Key options.
-            float headerWidth = OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f);
-            UISpacers.AddTitleSpacer(panel, Margin, currentY, headerWidth, Translations.Translate("KEYS"));
+            // Troubleshooting options.
+            UISpacers.AddTitleSpacer(panel, Margin, currentY, headerWidth, Translations.Translate("TROUBLESHOOTING"));
             currentY += TitleMargin;
 
-            // Anarchy hotkey control.
-            OptionsKeymapping anarchyKeyMapping = panel.gameObject.AddComponent<OptionsKeymapping>();
-            anarchyKeyMapping.Label = Translations.Translate("KEY_ANARCHY");
-            anarchyKeyMapping.Binding = UIThreading.AnarchyKey;
-            anarchyKeyMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += anarchyKeyMapping.Panel.height + Margin;
-
-            // Raise elevation key control.
-            OptionsKeymapping elevationUpMapping = panel.gameObject.AddComponent<OptionsKeymapping>();
-            elevationUpMapping.Label = Translations.Translate("KEY_ELEVATION_UP");
-            elevationUpMapping.Binding = UIThreading.ElevationUpKey;
-            elevationUpMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += elevationUpMapping.Panel.height + Margin;
-
-            // Lower elevation key control.
-            OptionsKeymapping elevationDownMapping = panel.gameObject.AddComponent<OptionsKeymapping>();
-            elevationDownMapping.Label = Translations.Translate("KEY_ELEVATION_DOWN");
-            elevationDownMapping.Binding = UIThreading.ElevationDownKey;
-            elevationDownMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += elevationDownMapping.Panel.height + Margin;
-
-            // Upscaling key control.
-            OptionsKeymapping scaleUpMapping = panel.gameObject.AddComponent<OptionsKeymapping>();
-            scaleUpMapping.Label = Translations.Translate("KEY_SCALE_UP");
-            scaleUpMapping.Binding = UIThreading.ScaleUpKey;
-            scaleUpMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += scaleUpMapping.Panel.height + Margin;
-
-            // Downscaling key control.
-            OptionsKeymapping scaleDownMapping = panel.gameObject.AddComponent<OptionsKeymapping>();
-            scaleDownMapping.Label = Translations.Translate("KEY_SCALE_DOWN");
-            scaleDownMapping.Binding = UIThreading.ScaleDownKey;
-            scaleDownMapping.Panel.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += scaleDownMapping.Panel.height + GroupMargin;
-
-            UISlider keyDelaySlider = UISliders.AddPlainSliderWithValue(panel, LeftMargin, currentY, Translations.Translate("REPEAT_DELAY"), 0.1f, 1.0f, 0.05f, UIThreading.KeyRepeatDelay);
-            keyDelaySlider.eventValueChanged += (c, value) => UIThreading.KeyRepeatDelay = value;
+            // Logging checkbox.
+            UICheckBox loggingCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
+            loggingCheck.isChecked = Logging.DetailLogging;
+            loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
         }
     }
 }
