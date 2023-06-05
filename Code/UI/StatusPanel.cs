@@ -115,7 +115,7 @@ namespace PropControl
 
             _anarchyButton = AddToggleButton(this, "Prop anarchy status", tcAtlas, "AnarchyOff", "AnarchyOn");
             _anarchyButton.relativePosition = Vector2.zero;
-            _anarchyButton.tooltipBox = UIToolTips.WordWrapToolTip;
+            _anarchyButton.tooltipBox = UIToolTips.WordWrapToolTipBox();
             _anarchyButton.eventActiveStateIndexChanged += (c, state) =>
             {
                 // Don't do anything if ignoring events.
@@ -126,7 +126,7 @@ namespace PropControl
             };
 
             _snappingButton = AddToggleButton(this, "Prop snapping status", tcAtlas, "SnappingOff", "SnappingOn");
-            _snappingButton.tooltipBox = UIToolTips.WordWrapToolTip;
+            _snappingButton.tooltipBox = UIToolTips.WordWrapToolTipBox();
             _snappingButton.relativePosition = new Vector2(ButtonSize + ButtonSpacing, 0f);
             _snappingButton.eventActiveStateIndexChanged += (c, state) =>
             {
@@ -188,6 +188,12 @@ namespace PropControl
             tooltipText.Append(SavedInputKey.ToLocalizedString("KEYNAME", UIThreading.AnarchyKey.Encode()));
             _anarchyButton.tooltip = tooltipText.ToString();
 
+            // Update anarchy button tooltip if open.
+            if (_anarchyButton.tooltipBox is UILabel anarchyTipBox && anarchyTipBox.isVisible)
+            {
+                anarchyTipBox.text = _anarchyButton.tooltip;
+            }
+
             // Snapping button tooltip.
             tooltipText.Length = 0;
             tooltipText.Append(Translations.Translate("SNAPPING_STATUS"));
@@ -198,6 +204,12 @@ namespace PropControl
             tooltipText.Append(": ");
             tooltipText.Append(SavedInputKey.ToLocalizedString("KEYNAME", UIThreading.SnappingKey.Encode()));
             _snappingButton.tooltip = tooltipText.ToString();
+
+            // Update snapping button tooltip if open.
+            if (_snappingButton.tooltipBox is UILabel snappingTipBox && snappingTipBox.isVisible)
+            {
+                snappingTipBox.text = _snappingButton.tooltip;
+            }
         }
 
         /// <summary>
