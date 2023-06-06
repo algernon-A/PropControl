@@ -181,7 +181,7 @@ namespace PropControl
             // Anarchy button tooltip.
             tooltipText.Append(Translations.Translate("ANARCHY_STATUS"));
             tooltipText.Append(' ');
-            tooltipText.AppendLine(PropToolPatches.AnarchyEnabled ? "ON" : "OFF");
+            tooltipText.AppendLine(Translations.Translate(PropToolPatches.AnarchyEnabled ? "ON" : "OFF"));
             tooltipText.AppendLine(Translations.Translate("ANARCHY_TIP"));
             tooltipText.Append(Translations.Translate("KEY_ANARCHY"));
             tooltipText.Append(": ");
@@ -198,7 +198,7 @@ namespace PropControl
             tooltipText.Length = 0;
             tooltipText.Append(Translations.Translate("SNAPPING_STATUS"));
             tooltipText.Append(' ');
-            tooltipText.AppendLine(PropToolPatches.SnappingEnabled ? "ON" : "OFF");
+            tooltipText.AppendLine(Translations.Translate(PropToolPatches.SnappingEnabled ? "ON" : "OFF"));
             tooltipText.AppendLine(Translations.Translate("SNAPPING_TIP"));
             tooltipText.Append(Translations.Translate("KEY_SNAPPING"));
             tooltipText.Append(": ");
