@@ -17,7 +17,7 @@ namespace PropSnapping
     public class SerializableData : SerializableDataExtensionBase
     {
         /// <summary>
-        /// Legacy 81 tiles data ID.
+        /// Legacy Prop Snapping data ID.
         /// </summary>
         internal const string DataID = "PropSnapping";
 
