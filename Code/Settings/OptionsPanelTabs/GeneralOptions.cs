@@ -62,7 +62,13 @@ namespace PropControl
             UICheckBox transparencyCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("TRANSPARENT_UI"));
             transparencyCheck.isChecked = StatusPanel.TransparentUI;
             transparencyCheck.eventCheckChanged += (c, isChecked) => { StatusPanel.TransparentUI = isChecked; };
-            currentY += transparencyCheck.height + GroupMargin;
+            currentY += transparencyCheck.height + 10f;
+
+            // Initial anarchy state.
+            UICheckBox enableAfterLoadCheck = UICheckBoxes.AddPlainCheckBox(panel, LeftMargin, currentY, Translations.Translate("INITIAL_STATUS"));
+            enableAfterLoadCheck.isChecked = Loading.InitialAnarchyState;
+            enableAfterLoadCheck.eventCheckChanged += (c, isChecked) => { Loading.InitialAnarchyState = isChecked; };
+            currentY += enableAfterLoadCheck.height + GroupMargin;
 
             // Reset position button.
             UIButton resetPositionButton = UIButtons.AddButton(panel, LeftMargin, currentY, Translations.Translate("RESET_POS"), 300f);

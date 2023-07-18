@@ -17,6 +17,11 @@ namespace PropControl
     public sealed class Loading : PatcherLoadingBase<OptionsPanel, Patcher>
     {
         /// <summary>
+        /// Gets or sets a value indicating whether the UI anarchy toggle should be enabled (<c>true</c>) or disabled (<c>false</c>) after loading.
+        /// </summary>
+        internal static bool InitialAnarchyState { get; set; } = true;
+
+        /// <summary>
         /// Gets a list of permitted loading modes.
         /// </summary>
         protected override List<AppMode> PermittedModes => new List<AppMode> { AppMode.Game, AppMode.MapEditor };
@@ -31,6 +36,9 @@ namespace PropControl
 
             // Apply decal prop fix.
             new DecalPropFix();
+
+            // Set initial anarchy state.
+            PropToolPatches.AnarchyEnabled = InitialAnarchyState;
 
             // Add status panel.
             if (StatusPanel.ShowButtons)
