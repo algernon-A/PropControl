@@ -1,3 +1,5 @@
+
+- Extend snapping to networks
 - Add option to set initial anarchy status when loading is completed
 
 

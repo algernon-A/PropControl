@@ -243,6 +243,10 @@ namespace PropControl.Patches
         {
             // Building snapping.
             raycast.m_ignoreBuildingFlags = SnappingEnabled ? Building.Flags.None : Building.Flags.All;
+
+            // Network snapping.
+            raycast.m_ignoreNodeFlags = SnappingEnabled ? NetNode.Flags.None : NetNode.Flags.All;
+            raycast.m_ignoreSegmentFlags = SnappingEnabled ? NetSegment.Flags.None : NetSegment.Flags.All;
         }
     }
 }
