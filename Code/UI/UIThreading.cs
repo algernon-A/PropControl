@@ -16,13 +16,13 @@ namespace PropControl
     /// </summary>
     public sealed class UIThreading : ThreadingExtensionBase
     {
-        // Scaling step - initial (on keydown).
+        // Scaling step - initial (on key down).
         private const float InitialScalingIncrement = 0.05f;
 
         // Scaling step - repeating, per second.
         private const float RepeatScalingIncrement = 0.5f;
 
-        // Elevation step - initial (on keydown).
+        // Elevation step - initial (on key down).
         private const float InitialElevationIncrement = 0.1f;
 
         // Elevation step - repeating, per second.
@@ -38,6 +38,7 @@ namespace PropControl
         // Function keys.
         private static Keybinding s_scaleUpKey = new Keybinding(KeyCode.Period, false, false, false);
         private static Keybinding s_scaleDownKey = new Keybinding(KeyCode.Comma, false, false, false);
+        private static Keybinding s_resetScaleKey = new Keybinding(KeyCode.Slash, false, false, false);
         private static Keybinding s_elevationUpKey = new Keybinding(KeyCode.PageUp, false, false, false);
         private static Keybinding s_elevationDownKey = new Keybinding(KeyCode.PageDown, false, false, false);
 
@@ -46,6 +47,7 @@ namespace PropControl
         private bool _snappingKeyProcessed = false;
         private bool _scaleUpKeyProcessed = false;
         private bool _scaleDownKeyProcessed = false;
+        private bool _resetScaleKeyProcessed = false;
         private bool _elevationUpKeyProcessed = false;
         private bool _elevationDownKeyProcessed = false;
 
@@ -93,6 +95,11 @@ namespace PropControl
         /// Gets or sets the prop downscaling key.
         /// </summary>
         internal static Keybinding ScaleDownKey { get => s_scaleDownKey; set => s_scaleDownKey = value; }
+
+        /// <summary>
+        /// Gets or sets the reset prop scale key.
+        /// </summary>
+        internal static Keybinding ResetScaleKey { get => s_resetScaleKey; set => s_resetScaleKey = value; }
 
         /// <summary>
         /// Gets or sets the raise elevation key.
@@ -185,6 +192,25 @@ namespace PropControl
             {
                 // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
                 _scaleUpKeyProcessed = false;
+            }
+
+            // Check for scale reset keypress.
+            if (s_resetScaleKey.IsPressed())
+            {
+                // Only process if we're not already doing so.
+                if (!_resetScaleKeyProcessed)
+                {
+                    // Set processed flag.
+                    _resetScaleKeyProcessed = true;
+
+                    // Reset scaling.
+                    PropToolPatches.Scaling = 1.0f;
+                }
+            }
+            else
+            {
+                // Relevant keys aren't pressed anymore; this keystroke is over, so reset and continue.
+                _resetScaleKeyProcessed = false;
             }
 
             // Check for downscaling hotkey.

@@ -55,7 +55,11 @@ namespace PropControl
 
             // Downscaling key control.
             OptionsKeymapping scaleDownMapping = OptionsKeymapping.AddKeymapping(panel, LeftMargin, currentY, Translations.Translate("KEY_SCALE_DOWN"), UIThreading.ScaleDownKey);
-            currentY += scaleDownMapping.Panel.height + GroupMargin;
+            currentY += scaleDownMapping.Panel.height + Margin;
+
+            // Reset scaling key control.
+            OptionsKeymapping resetScalingMapping = OptionsKeymapping.AddKeymapping(panel, LeftMargin, currentY, Translations.Translate("KEY_RESET_SCALE"), UIThreading.ResetScaleKey);
+            currentY += resetScalingMapping.Panel.height + GroupMargin;
 
             UISlider keyDelaySlider = UISliders.AddPlainSliderWithValue(panel, LeftMargin, currentY, Translations.Translate("REPEAT_DELAY"), 0.1f, 1.0f, 0.05f, UIThreading.KeyRepeatDelay);
             keyDelaySlider.eventValueChanged += (c, value) => UIThreading.KeyRepeatDelay = value;

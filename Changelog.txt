@@ -1,3 +1,6 @@
+- Add key to reset prop scaling
+
+
 Version 0.9.7 -
 
 - Extend snapping to networks
