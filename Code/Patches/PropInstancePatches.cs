@@ -64,6 +64,29 @@ namespace PropControl.Patches
         internal static bool KeepAboveGround { get => s_keepAboveGround; set => s_keepAboveGround = value; }
 
         /// <summary>
+        /// Harmony pre-emptive prefix to PropInstance.CalculateProp to implement prop snapping.
+        /// </summary>
+        /// <param name="__instance">PropInstance instance.</param>
+        /// <returns>Always false (never execute original method).</returns>
+        [HarmonyPatch(nameof(PropInstance.CalculateProp))]
+        [HarmonyPrefix]
+        internal static bool CalculatePropPrefix(ref PropInstance __instance)
+        {
+            // Only do this for created props with no recorded Y position.
+            if (((__instance.m_flags & (ushort)PropInstance.Flags.Created) != 0) &
+                     __instance.m_posY == 0)
+            {
+                // Move prop to terrain height.
+                Vector3 position = __instance.Position;
+                position.y = Singleton<TerrainManager>.instance.SampleDetailHeight(position);
+                __instance.m_posY = (ushort)Mathf.Clamp(Mathf.RoundToInt(position.y * 64f), 0, 65535);
+            }
+
+            // Don't execute original method.
+            return false;
+        }
+
+        /// <summary>
         /// Harmony pre-emptive Prefix to PropInstance.Blocked setter to implement prop tool anarchy.
         /// </summary>
         /// <param name="__instance">PropInstance instance.</param>
@@ -201,29 +224,6 @@ namespace PropControl.Patches
             }
 
             // Never execute original method.
-            return false;
-        }
-
-        /// <summary>
-        /// Harmony pre-emptive prefix to PropInstance.CalculateProp to implement prop snapping.
-        /// </summary>
-        /// <param name="__instance">PropInstance instance.</param>
-        /// <returns>Always false (never execute original method).</returns>
-        [HarmonyPatch(nameof(PropInstance.CalculateProp))]
-        [HarmonyPrefix]
-        private static bool CalculatePropPrefix(ref PropInstance __instance)
-        {
-            // Only do this for created props with no recorded Y position.
-            if (((__instance.m_flags & (ushort)PropInstance.Flags.Created) == 1) &
-                     __instance.m_posY == 0)
-            {
-                // Move prop to terrain height.
-                Vector3 position = __instance.Position;
-                position.y = Singleton<TerrainManager>.instance.SampleDetailHeight(position);
-                __instance.m_posY = (ushort)Mathf.Clamp(Mathf.RoundToInt(position.y * 64f), 0, 65535);
-            }
-
-            // Don't execute original method.
             return false;
         }
 

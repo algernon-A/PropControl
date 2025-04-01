@@ -1,3 +1,6 @@
+- Force-reset props to terrain height when loading a savegame with no existing snapping data
+
+
 Version 1.0 -
 
 - Add key to reset prop scaling

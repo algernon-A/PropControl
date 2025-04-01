@@ -25,6 +25,11 @@ namespace PropSnapping
         private const int DataVersion = 1;
 
         /// <summary>
+        /// Gets a value indicating whether snapping data exists in this save.
+        /// </summary>
+        internal static bool HasSnappingData { get; private set; } = false;
+
+        /// <summary>
         /// Deserializes data from a savegame.
         /// Called by the game on load (including a new game).
         /// </summary>
@@ -38,6 +43,8 @@ namespace PropSnapping
                 return;
             }
 
+            // Snapping data exists.
+            HasSnappingData = true;
             byte[] data = serializableDataManager.LoadData(DataID);
             using (MemoryStream stream = new MemoryStream(data))
             {

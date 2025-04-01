@@ -6,6 +6,7 @@
 namespace PropControl
 {
     using System.Collections.Generic;
+    using AlgernonCommons;
     using AlgernonCommons.Patching;
     using AlgernonCommons.UI;
     using ICities;
@@ -46,8 +47,23 @@ namespace PropControl
                 StandalonePanelManager<StatusPanel>.Create();
             }
 
+
             // Patch Move It.
             PropToolPatches.CheckMoveIt();
+
+
+            // If we're deserializing a save that doesn't have snapping data, we need to reset existing props to ground level.
+            if (!PropSnapping.SerializableData.HasSnappingData)
+            {
+                Logging.Message("No snapping data found in savegame; resetting props to ground level");
+                PropInstance[] props = PropManager.instance.m_props.m_buffer;
+                for (int i = 0; i < props.Length; ++i)
+                {
+                    PropInstancePatches.CalculatePropPrefix(ref props[i]);
+                }
+
+                PropInfoPatches.RefreshLODs(true);
+            }
         }
     }
 }
