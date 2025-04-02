@@ -55,7 +55,7 @@ namespace PropControl
             // If we're deserializing a save that doesn't have snapping data, we need to reset existing props to ground level.
             if (!PropSnapping.SerializableData.HasSnappingData)
             {
-                Logging.Message("No snapping data found in savegame; resetting props to ground level");
+                Logging.KeyMessage("No snapping data found in savegame; resetting props to ground level");
                 PropInstance[] props = PropManager.instance.m_props.m_buffer;
                 for (int i = 0; i < props.Length; ++i)
                 {
